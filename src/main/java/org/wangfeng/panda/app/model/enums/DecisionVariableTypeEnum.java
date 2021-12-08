@@ -5,11 +5,11 @@ package org.wangfeng.panda.app.model.enums;
  */
 public enum DecisionVariableTypeEnum {
 
-    STRING((short)1,"字符串"),
-    INTEGER((short)2,"整数"),
-    BOOLEAN((short)3,"布尔"),
-    DOUBLE((short)4,"浮点数"),
-    ENUM((short)5,"枚举值");
+    STRING((short) 1, "字符串"),
+    INTEGER((short) 2, "整数"),
+    BOOLEAN((short) 3, "布尔"),
+    DOUBLE((short) 4, "浮点数"),
+    ENUM((short) 5, "枚举值");
 
     private Short code;
     private String name;
@@ -27,12 +27,12 @@ public enum DecisionVariableTypeEnum {
         this.name = name;
     }
 
-    public static DecisionVariableTypeEnum getByCode(Short code){
-        if(code == null){
+    public static DecisionVariableTypeEnum getByCode(Short code) {
+        if (code == null) {
             return null;
         }
-        for(DecisionVariableTypeEnum i: DecisionVariableTypeEnum.values()){
-            if(i.getCode() == code.intValue()){
+        for (DecisionVariableTypeEnum i : DecisionVariableTypeEnum.values()) {
+            if (i.getCode() == code.intValue()) {
                 return i;
             }
         }

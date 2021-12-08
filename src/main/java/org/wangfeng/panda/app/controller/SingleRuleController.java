@@ -22,7 +22,6 @@ import org.wangfeng.panda.app.validation.group.UpdateOperation;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * <p>
  * Title: [子系统名称]_[模块名]
@@ -41,7 +40,6 @@ import java.util.Map;
 @RequestMapping(value = "/m/single/rule")
 @Api(value = "panda-single-rule", description = "规则API")
 public class SingleRuleController extends AppBaseController {
-
 
     @Autowired
     private SingleRuleService singleRuleService;
@@ -62,10 +60,9 @@ public class SingleRuleController extends AppBaseController {
     })
     public ResponseEntity getList(@ApiParam(value = "查询条件，是对象", required = true)
                                   @RequestBody @Validated(value = SelectOperation.class) TCaSingleRuleVO tCaSingleRuleVO) {
-        Paginate paginate = singleRuleService.queryPagenate(tCaSingleRuleVO,getPageIndex(),getPageSize());
-        return new ResponseEntity(ok("获取成功",paginate),HttpStatus.OK);
+        Paginate paginate = singleRuleService.queryPagenate(tCaSingleRuleVO, getPageIndex(), getPageSize());
+        return new ResponseEntity(ok("获取成功", paginate), HttpStatus.OK);
     }
-
 
     /**
      * 通过ID单个查询
@@ -83,12 +80,11 @@ public class SingleRuleController extends AppBaseController {
     })
     public ResponseEntity getById(@ApiParam(value = "规则的主键ID", required = true) @RequestParam Long id) {
         TCaSingleRuleVO tCaSingleRuleVO = singleRuleService.getById(id);
-        if(tCaSingleRuleVO==null){
-            return new ResponseEntity(fail("没有查到对应数据！"),HttpStatus.EXPECTATION_FAILED);
+        if (tCaSingleRuleVO == null) {
+            return new ResponseEntity(fail("没有查到对应数据！"), HttpStatus.EXPECTATION_FAILED);
         }
-        return new ResponseEntity(ok("获取成功",tCaSingleRuleVO), HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", tCaSingleRuleVO), HttpStatus.OK);
     }
-
 
     /**
      * 新增规则
@@ -134,7 +130,6 @@ public class SingleRuleController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
     /**
      * 删除规则
      *
@@ -154,7 +149,6 @@ public class SingleRuleController extends AppBaseController {
         return new ResponseEntity(ok("删除成功！"), HttpStatus.OK);
     }
 
-
     /**
      * 全量运算符的查询
      *
@@ -170,9 +164,8 @@ public class SingleRuleController extends AppBaseController {
     })
     public ResponseEntity queryAllOutPutType() {
         List<JSONObject> jsonObjectList = OutPutTypeEnum.queryAllOutPutType();
-        return new ResponseEntity(ok("操作成功",jsonObjectList), HttpStatus.OK);
+        return new ResponseEntity(ok("操作成功", jsonObjectList), HttpStatus.OK);
     }
-
 
     /**
      * 测试表达式写的是否正确的接口
@@ -188,10 +181,10 @@ public class SingleRuleController extends AppBaseController {
 
     })
     public ResponseEntity testRuleExpression(
-            @ApiParam(value = "参数", required = true) @RequestBody Map<String,Object> params,
+            @ApiParam(value = "参数", required = true) @RequestBody Map<String, Object> params,
             @ApiParam(value = "表达式对象", required = true) @RequestBody TCaSingleRule tCaSingleRule
     ) {
-        Object obj = singleRuleService.testRuleExpression(tCaSingleRule,params);
+        Object obj = singleRuleService.testRuleExpression(tCaSingleRule, params);
         return new ResponseEntity(ok(obj.toString()), HttpStatus.OK);
     }
 

@@ -8,9 +8,7 @@ import org.wangfeng.panda.app.dao.domain.TCaCellVariable;
 
 import java.util.List;
 
-
 public interface TCaCellVariableMapper extends MyMapper<TCaCellVariable> {
-
 
     @Select("<script>" +
             " select cell.* " +
@@ -19,20 +17,16 @@ public interface TCaCellVariableMapper extends MyMapper<TCaCellVariable> {
             "</script>")
     public List<TCaCellVariable> queryCellListByLineCode(String lineCode);
 
-
     @Select("<script>" +
             " select cell.* " +
             " from t_ca_cell_variable cell " +
             " where cell.rule_line_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and cell.status = 1 and cell.delete_flag = 0 " +
             "</script>")
     public List<TCaCellVariable> queryCellListByLineCodeList(List<String> lineCodeList);
-
-
-
 
     @Update(" <script> " +
             " update t_ca_cell_variable cell " +
@@ -41,14 +35,12 @@ public interface TCaCellVariableMapper extends MyMapper<TCaCellVariable> {
             "</script>")
     public void deleteByLineCode(String lineCode);
 
-
     @Update(" <script> " +
             " update t_ca_cell_variable cell " +
             " set  cell.status = 0 " +
             " where cell.rule_line_code = #{lineCode}" +
             "</script>")
     public void unUseByLineCode(String lineCode);
-
 
     @Insert("<script>" +
             "insert into t_ca_cell_variable " +

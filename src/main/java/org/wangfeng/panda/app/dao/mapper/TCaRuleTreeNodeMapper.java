@@ -29,23 +29,19 @@ public interface TCaRuleTreeNodeMapper extends MyMapper<TCaRuleTreeNode> {
             + "</script>")
     public void deleteByRuleTreeId(TCaRuleTreeNode tCaRuleTreeNode);
 
-
-
     @Select("select * from t_ca_rule_tree_node where delete_flag = 0")
     public List<TCaRuleTreeNode> queryAll(TCaRuleTreeNode tCaRuleTreeNode);
-
 
     @Select(" <script> " +
             " select *" +
             " from t_ca_rule_tree_node  " +
             " where rule_tree_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and delete_flag = 0 " +
             "</script>")
     public List<TCaRuleTreeNode> queryListByTreeCodeList(List<String> RuleTreeCodeList);
-
 
     @Insert("<script>" +
             "insert into t_ca_rule_tree_node " +

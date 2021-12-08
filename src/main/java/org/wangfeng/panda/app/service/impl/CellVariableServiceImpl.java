@@ -18,17 +18,15 @@ import java.util.List;
 @Slf4j
 public class CellVariableServiceImpl extends AppBaseService implements CellVariableService {
 
-
     @Autowired
     private CacheClient cacheClient;
 
     @Autowired
     private TCaCellVariableMapper tCaCellVariableMapper;
 
-
-
     /**
      * 通过lineCode查询所有的变量格子
+     *
      * @param lineCode
      * @return
      */
@@ -37,13 +35,12 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
         //1、查询redis内是否有对应的结果
         List<TCaCellVariable> tCaCellVariableList = null;
 //                (List<TCaCellVariable>)cacheClient.getObject("all_"+RedisInputEnum.CELL_VARIABLE+"_by_line_code_"+lineCode);
-        if(tCaCellVariableList!=null){
+        if (tCaCellVariableList != null) {
             return tCaCellVariableList;
         }
 
         //2、如果没有则去数据库查询
         tCaCellVariableList = tCaCellVariableMapper.queryCellListByLineCode(lineCode);
-
 
         //3、插入redis
 //        cacheClient.setObject("all_"+RedisInputEnum.CELL_VARIABLE+"_by_line_code_"+lineCode,tCaCellVariableList);
@@ -54,6 +51,7 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
 
     /**
      * 插入格子
+     *
      * @param tCaCellVariable
      * @param tCaRuleLineVO
      * @param sort
@@ -62,13 +60,13 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
     public Integer insertCellVariable(TCaCellVariable tCaCellVariable, TCaRuleLineVO tCaRuleLineVO, Integer sort) {
 
         //定义一些初步的数据
-        if(tCaCellVariable.getSort()==null){
+        if (tCaCellVariable.getSort() == null) {
             tCaCellVariable.setSort(sort);
         }
-        tCaCellVariable.setCellVariableValue(tCaCellVariable.getCellVariableSource()==1?tCaCellVariable.getCellVariableKey():"");
+        tCaCellVariable.setCellVariableValue(tCaCellVariable.getCellVariableSource() == 1 ? tCaCellVariable.getCellVariableKey() : "");
         tCaCellVariable.setBusinessCode(tCaRuleLineVO.getBusinessCode());
         tCaCellVariable.setRuleLineCode(tCaRuleLineVO.getLineCode());
-        tCaCellVariable.setCellVariableCode("CELL_"+tCaRuleLineVO.getRuleCode()+"_"+tCaRuleLineVO.getSort()+"_"+sort+"_"+tCaRuleLineVO.getRuleLineModule()+"_"+tCaCellVariable.getCellVariableKey());
+        tCaCellVariable.setCellVariableCode("CELL_" + tCaRuleLineVO.getRuleCode() + "_" + tCaRuleLineVO.getSort() + "_" + sort + "_" + tCaRuleLineVO.getRuleLineModule() + "_" + tCaCellVariable.getCellVariableKey());
         tCaCellVariable.setStatus(Constants.SHORT_ONE);
         tCaCellVariable.setId(null);
 
@@ -80,6 +78,7 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
 
     /**
      * 更新格子
+     *
      * @param tCaCellVariable
      * @param tCaRuleLineVO
      * @param sort
@@ -91,17 +90,17 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
 
         //1、先查询是否存在
         TCaCellVariable queryCellVariable = new TCaCellVariable();
-        queryCellVariable.setCellVariableCode("CELL_"+tCaRuleLineVO.getRuleCode()+"_"+tCaRuleLineVO.getSort()+"_"+sort+"_"+tCaRuleLineVO.getRuleLineModule()+"_"+tCaCellVariable.getCellVariableKey());
+        queryCellVariable.setCellVariableCode("CELL_" + tCaRuleLineVO.getRuleCode() + "_" + tCaRuleLineVO.getSort() + "_" + sort + "_" + tCaRuleLineVO.getRuleLineModule() + "_" + tCaCellVariable.getCellVariableKey());
         TCaCellVariable queryTCaCellVariable = tCaCellVariableMapper.selectOne(queryCellVariable);
 
         //2、如果存在则更新，如果不存在则插入
-        if(queryTCaCellVariable!=null){
+        if (queryTCaCellVariable != null) {
             //定义一些初步的数据
-            if(queryTCaCellVariable.getSort()==null){
+            if (queryTCaCellVariable.getSort() == null) {
                 queryTCaCellVariable.setSort(sort);
             }
             queryTCaCellVariable.setSort(sort);
-            queryTCaCellVariable.setCellVariableValue(tCaCellVariable.getCellVariableSource()==1?tCaCellVariable.getCellVariableKey():"");
+            queryTCaCellVariable.setCellVariableValue(tCaCellVariable.getCellVariableSource() == 1 ? tCaCellVariable.getCellVariableKey() : "");
             queryTCaCellVariable.setBusinessCode(tCaRuleLineVO.getBusinessCode());
             queryTCaCellVariable.setRuleLineCode(tCaRuleLineVO.getLineCode());
             queryTCaCellVariable.setStatus(Constants.SHORT_ONE);
@@ -109,15 +108,16 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
             initUpdateWord(queryTCaCellVariable);
             return tCaCellVariableMapper.updateByPrimaryKey(queryTCaCellVariable);
 
-        }else {
+        } else {
             //定义一些初步的数据
-            return insertCellVariable(tCaCellVariable,tCaRuleLineVO,sort);
+            return insertCellVariable(tCaCellVariable, tCaRuleLineVO, sort);
         }
 
     }
 
     /**
      * 根据lineCode删除
+     *
      * @param lineCode
      */
     @Override
@@ -126,9 +126,9 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
         tCaCellVariableMapper.deleteByLineCode(lineCode);
     }
 
-
     /**
      * 停用格子
+     *
      * @param lineCode
      */
     @Override
@@ -140,7 +140,7 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
     @Override
     public void batchInsertNotExist(List<TCaCellVariable> tCaCellVariableList, StringBuffer info) {
         //1、判空
-        if(tCaCellVariableList==null){
+        if (tCaCellVariableList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -153,11 +153,11 @@ public class CellVariableServiceImpl extends AppBaseService implements CellVaria
                 //定义一些初步的数据
                 initSaveWord(cv);
                 int count = tCaCellVariableMapper.insertNotExist(cv);
-                if(count<1){
-                    log.error("code为["+cv.getCellVariableKey()+"]的规则重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + cv.getCellVariableKey() + "]的规则重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(cv.getCellVariableKey()).append(",");
             }
         });

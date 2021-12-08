@@ -27,7 +27,7 @@ public class TCaDecisionVariable extends AppBaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SELECT LAST_INSERT_ID()")
     @ApiModelProperty("自增主键ID")
-    @NotNull(message="自增主键不能为空" , groups = {DeleteOperation.class, UpdateOperation.class})
+    @NotNull(message = "自增主键不能为空", groups = {DeleteOperation.class, UpdateOperation.class})
     @ExportColumn("自增主键ID")
     private Long id;
 
@@ -36,7 +36,7 @@ public class TCaDecisionVariable extends AppBaseModel {
      */
     @Column(name = "variable_code")
     @ApiModelProperty("字段名称")
-    @Pattern(message = "仅允许输入字母、数字、下划线", regexp = "^[_a-zA-Z0-9]+$", groups = {AddOperation.class,UpdateOperation.class})
+    @Pattern(message = "仅允许输入字母、数字、下划线", regexp = "^[_a-zA-Z0-9]+$", groups = {AddOperation.class, UpdateOperation.class})
     @ExportColumn("字段名称")
     private String variableCode;
 
@@ -45,7 +45,7 @@ public class TCaDecisionVariable extends AppBaseModel {
      */
     @Column(name = "decision_variable_name")
     @ApiModelProperty("决策变量名称")
-    @Pattern(message = "仅允许输入汉字、字母、数字、下划线", regexp = "^[\\u4e00-\\u9fa5_a-zA-Z0-9]+$", groups = {AddOperation.class,UpdateOperation.class})
+    @Pattern(message = "仅允许输入汉字、字母、数字、下划线", regexp = "^[\\u4e00-\\u9fa5_a-zA-Z0-9]+$", groups = {AddOperation.class, UpdateOperation.class})
     @ExportColumn("决策变量名称")
     private String decisionVariableName;
 
@@ -138,32 +138,33 @@ public class TCaDecisionVariable extends AppBaseModel {
 
     /**
      * 实体类向vo的转换方法
+     *
      * @return
      */
-    public TCaDecisionVariableVO invokeToVo(){
-        if(this == null){
+    public TCaDecisionVariableVO invokeToVo() {
+        if (this == null) {
             return null;
         }
         TCaDecisionVariableVO vo = new TCaDecisionVariableVO();
-        BeanUtils.copyProperties(this,vo);
+        BeanUtils.copyProperties(this, vo);
 
-        vo.setDecisionVariableFlagName(vo.getDecisionVariableFlag().equals(Constants.SHORT_ONE)?Constants.SHI:Constants.FOU);
+        vo.setDecisionVariableFlagName(vo.getDecisionVariableFlag().equals(Constants.SHORT_ONE) ? Constants.SHI : Constants.FOU);
 
         //状态名称赋值
         StatusEnum statusEnum = StatusEnum.getByCode(vo.getStatus());
-        if(statusEnum!=null){
+        if (statusEnum != null) {
             vo.setStatusName(statusEnum.getName());
         }
 
         //变量类型名称赋值
         DecisionVariableTypeEnum decisionVariableTypeEnum = DecisionVariableTypeEnum.getByCode(vo.getVariableType());
-        if(decisionVariableTypeEnum!=null){
+        if (decisionVariableTypeEnum != null) {
             vo.setVariableTypeName(decisionVariableTypeEnum.getName());
         }
 
         //数据来源名称赋值
         VariableParamSourceEnum variableParamSourceEnum = VariableParamSourceEnum.getByCode(vo.getParamSource());
-        if(variableParamSourceEnum!=null){
+        if (variableParamSourceEnum != null) {
             vo.setParamSourceName(variableParamSourceEnum.getName());
         }
 

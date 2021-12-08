@@ -1,6 +1,6 @@
 package org.wangfeng.panda.app.common.exception;
 
-public class RuleRuntimeException extends RuntimeException{
+public class RuleRuntimeException extends RuntimeException {
 
     Integer code;
     String message;
@@ -27,7 +27,6 @@ public class RuleRuntimeException extends RuntimeException{
     public RuleRuntimeException(Throwable cause) {
         super(cause);
     }
-
 
     public Integer getCode() {
         return code;

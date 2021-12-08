@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface TCaRuleLineMapper extends MyMapper<TCaRuleLine> {
 
-
     @Select(" <script> " +
             " select line.*" +
             " from t_ca_rule_line line " +
@@ -19,20 +18,16 @@ public interface TCaRuleLineMapper extends MyMapper<TCaRuleLine> {
             "</script>")
     public List<TCaRuleLineVO> queryLineListByRuleCode(String ruleCode);
 
-
-
     @Select(" <script> " +
             " select line.*" +
             " from t_ca_rule_line line " +
             " where line.rule_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and line.status = 1 and line.delete_flag = 0 " +
             "</script>")
     public List<TCaRuleLine> queryLineListByRuleCodeList(List<String> ruleCodeList);
-
-
 
     @Update(" <script> " +
             " update t_ca_rule_line line " +
@@ -41,14 +36,12 @@ public interface TCaRuleLineMapper extends MyMapper<TCaRuleLine> {
             "</script>")
     public void deleteByRuleCode(String ruleCode);
 
-
     @Update(" <script> " +
             " update t_ca_rule_line line " +
             " set  line.status = 0 " +
             " where line.rule_code = #{ruleCode} " +
             "</script>")
     public void unUseByRuleCode(String ruleCode);
-
 
     @Insert("<script>" +
             "insert into t_ca_rule_line " +

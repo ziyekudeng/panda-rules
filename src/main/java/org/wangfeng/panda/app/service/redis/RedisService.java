@@ -36,16 +36,16 @@ public class RedisService {
     /**
      * 删除所有的缓存
      */
-    public void deleteAllCache(Integer type){
+    public void deleteAllCache(Integer type) {
 
-        switch (type){
+        switch (type) {
             case 1:
                 //1、清除所有的规则
                 Example example1 = new Example(TCaSingleRule.class);
                 example1.setOrderByClause("id desc");
-                List<TCaSingleRule> tCaSingleRuleList = tCaSingleRuleMapper.selectByExampleAndRowBounds(example1,new RowBounds(0, 1));
-                if(tCaSingleRuleList!=null){
-                    Long singleRuleCount =  tCaSingleRuleList.get(0).getId();
+                List<TCaSingleRule> tCaSingleRuleList = tCaSingleRuleMapper.selectByExampleAndRowBounds(example1, new RowBounds(0, 1));
+                if (tCaSingleRuleList != null) {
+                    Long singleRuleCount = tCaSingleRuleList.get(0).getId();
 //                    for(int i = 1 ;i<=singleRuleCount;i++){
 //                        cacheClient.del(RedisInputEnum.SINGLE_RULE.getName()+i);
 //                    }
@@ -56,9 +56,9 @@ public class RedisService {
                 //2、清除所有的规则集
                 Example example2 = new Example(TCaSingleRule.class);
                 example2.setOrderByClause("id desc");
-                List<TCaRuleList> tCaRuleListList = tCaRuleListMapper.selectByExampleAndRowBounds(example2,new RowBounds(0, 1));
-                if(tCaRuleListList!=null){
-                    Long RuleListCount =  tCaRuleListList.get(0).getId();
+                List<TCaRuleList> tCaRuleListList = tCaRuleListMapper.selectByExampleAndRowBounds(example2, new RowBounds(0, 1));
+                if (tCaRuleListList != null) {
+                    Long RuleListCount = tCaRuleListList.get(0).getId();
 //                    for(int i = 1 ;i<=RuleListCount;i++){
 //                        cacheClient.del(RedisInputEnum.RULE_LIST.getName()+i);
 //                    }
@@ -69,9 +69,9 @@ public class RedisService {
                 //3、清除所有的决策树
                 Example example3 = new Example(TCaSingleRule.class);
                 example3.setOrderByClause("id desc");
-                List<TCaRuleTree> tcaRuleTreeList = tCaRuleTreeMapper.selectByExampleAndRowBounds(example3,new RowBounds(0, 1));
-                if(tcaRuleTreeList!=null){
-                    Long singleRuleCount =  tcaRuleTreeList.get(0).getId();
+                List<TCaRuleTree> tcaRuleTreeList = tCaRuleTreeMapper.selectByExampleAndRowBounds(example3, new RowBounds(0, 1));
+                if (tcaRuleTreeList != null) {
+                    Long singleRuleCount = tcaRuleTreeList.get(0).getId();
 //                    for(int i = 1 ;i<=singleRuleCount;i++){
 //                        cacheClient.del(RedisInputEnum.RULE_TREE.getName()+i);
 //                    }
@@ -82,9 +82,9 @@ public class RedisService {
                 //4、清除所有的决策变量
                 Example example4 = new Example(TCaSingleRule.class);
                 example4.setOrderByClause("id desc");
-                List<TCaDecisionVariable> tCaDecisionVariableList = tCaDecisionVariableMapper.selectByExampleAndRowBounds(example4,new RowBounds(0, 1));
-                if(tCaDecisionVariableList!=null){
-                    Long decisionVariableCount =  tCaDecisionVariableList.get(0).getId();
+                List<TCaDecisionVariable> tCaDecisionVariableList = tCaDecisionVariableMapper.selectByExampleAndRowBounds(example4, new RowBounds(0, 1));
+                if (tCaDecisionVariableList != null) {
+                    Long decisionVariableCount = tCaDecisionVariableList.get(0).getId();
 //                    for(int i = 1 ;i<=decisionVariableCount;i++){
 //                        cacheClient.del(RedisInputEnum.DECISION_VARIABLE.getName()+i);
 //                    }
@@ -97,24 +97,24 @@ public class RedisService {
 
     }
 
-
     /**
      * 把不同类型的全量数据，放入redis
+     *
      * @param type
      */
-    public void putAllInRedis(Integer type){
-        switch (type){
+    public void putAllInRedis(Integer type) {
+        switch (type) {
             case 1:
                 Example singleRuleExample = new Example(TCaSingleRule.class);
                 Example.Criteria singleRuleCriteria = singleRuleExample.createCriteria();
-                singleRuleCriteria.andEqualTo("delete_flag",0);
+                singleRuleCriteria.andEqualTo("delete_flag", 0);
                 List<TCaSingleRule> tCaSingleRuleList = tCaSingleRuleMapper.selectByExample(singleRuleExample);
 //                cacheClient.setObject("all_"+RedisInputEnum.SINGLE_RULE.getName(),tCaSingleRuleList);
                 break;
             case 2:
                 Example ruleListExample = new Example(TCaSingleRule.class);
                 Example.Criteria ruleListCriteria = ruleListExample.createCriteria();
-                ruleListCriteria.andEqualTo("delete_flag",0);
+                ruleListCriteria.andEqualTo("delete_flag", 0);
                 List<TCaRuleList> tCaRuleListList = tCaRuleListMapper.selectByExample(ruleListCriteria);
 //                cacheClient.setObject("all_"+RedisInputEnum.RULE_LIST.getName(),tCaRuleListList);
                 break;
@@ -131,13 +131,6 @@ public class RedisService {
                 break;
         }
 
-
-
-
-
-
-
     }
-
 
 }

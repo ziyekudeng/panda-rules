@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface TCaDecisionVariableMapper extends MyMapper<TCaDecisionVariable> {
 
-
     @Select("<script>"
             + "SELECT variable.*,business.business_name as businessName "
             + "FROM t_ca_decision_variable variable "
@@ -77,14 +76,12 @@ public interface TCaDecisionVariableMapper extends MyMapper<TCaDecisionVariable>
             + "</script>")
     public List<TCaDecisionVariableVO> getList(TCaDecisionVariableVO tCaDecisionVariableVO);
 
-
     @Select("<script>"
             + "SELECT * "
             + "FROM t_ca_decision_variable "
             + "WHERE id = #{id} and delete_flag=0"
             + "</script>")
     public TCaDecisionVariable getById(Long id);
-
 
     @Update("<script>"
             + "update t_ca_decision_variable"
@@ -139,9 +136,6 @@ public interface TCaDecisionVariableMapper extends MyMapper<TCaDecisionVariable>
     @Override
     public int updateByPrimaryKey(TCaDecisionVariable tCaDecisionVariable);
 
-
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM t_ca_decision_variable "
@@ -152,7 +146,6 @@ public interface TCaDecisionVariableMapper extends MyMapper<TCaDecisionVariable>
             + "</script>")
     public List<TCaDecisionVariableVO> queryListByCodeList(List<String> codeList);
 
-
     @Select("<script>" +
             "select * " +
             "from t_ca_decision_variable " +
@@ -162,8 +155,6 @@ public interface TCaDecisionVariableMapper extends MyMapper<TCaDecisionVariable>
             "</if>" +
             "</script>")
     public List<TCaDecisionVariable> queryAll(TCaDecisionVariable tCaDecisionVariable);
-
-
 
     @Insert("<script>" +
             "insert into t_ca_decision_variable " +

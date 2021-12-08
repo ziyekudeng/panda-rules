@@ -10,33 +10,33 @@ import org.wangfeng.panda.app.service.SequenceService;
 
 import java.util.List;
 
-
 @Service
-public class SequenceServiceImpl  extends AppBaseService implements SequenceService {
+public class SequenceServiceImpl extends AppBaseService implements SequenceService {
 
     @Autowired
     private TCaSequenceMapper tCaSequenceMapper;
 
     /**
      * 根据code和type获取对应的sequence
+     *
      * @param code
      * @param type
      * @return
      */
     @Override
     public Integer queryLatestNum(String code, String type) {
-        Integer num = tCaSequenceMapper.queryLatestNum(code,type);
+        Integer num = tCaSequenceMapper.queryLatestNum(code, type);
         Integer finalNum = 0;
-        if(num!=null) {
+        if (num != null) {
             finalNum = num;
         }
         return finalNum;
 
     }
 
-
     /**
      * 如果存在则加一；否则，新增一条记录
+     *
      * @param code
      * @param type
      */
@@ -48,14 +48,13 @@ public class SequenceServiceImpl  extends AppBaseService implements SequenceServ
 
         List<TCaSequence> list = tCaSequenceMapper.select(tCaSequence);
 
-        if(list==null||list.size()==0){
+        if (list == null || list.size() == 0) {
             tCaSequence.setSeq(Constants.INTEGER_ONE);
             initSaveWord(tCaSequence);
             tCaSequenceMapper.insert(tCaSequence);
-        }else{
-            tCaSequenceMapper.incr(code,type);
+        } else {
+            tCaSequenceMapper.incr(code, type);
         }
     }
-
 
 }

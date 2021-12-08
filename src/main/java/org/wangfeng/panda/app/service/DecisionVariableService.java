@@ -1,6 +1,5 @@
 package org.wangfeng.panda.app.service;
 
-
 import org.wangfeng.panda.app.common.Paginate;
 import org.wangfeng.panda.app.dao.domain.TCaDecisionVariable;
 import org.wangfeng.panda.app.model.vo.TCaDecisionVariableVO;
@@ -33,7 +32,6 @@ public interface DecisionVariableService {
      */
     public List<String> batchAddDecisionVariable(List<TCaDecisionVariable> tCaDecisionVariableList);
 
-
     /**
      * 更新
      *
@@ -52,18 +50,18 @@ public interface DecisionVariableService {
 
     /**
      * 通过codeList获取所有的决策变量
+     *
      * @param codeList
      * @return
      */
     public List<TCaDecisionVariableVO> queryListByCodeList(List<String> codeList);
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaDecisionVariableList
      * @param info
      */
-    public void batchInsertNotExist(List<TCaDecisionVariable> tCaDecisionVariableList , StringBuffer info);
-
+    public void batchInsertNotExist(List<TCaDecisionVariable> tCaDecisionVariableList, StringBuffer info);
 
 }

@@ -33,7 +33,7 @@ public class LogInterceptor implements HandlerInterceptor {
         try {
             String apiName = ((HandlerMethod) handler).getMethod().getName();
             String className = ((HandlerMethod) handler).getMethod().getDeclaringClass().getName();
-            log.info("exit ,call method  {} , class {} ,ip {}  ", apiName,className, IpUtils.getIpFromRequest(httpServletRequest));
+            log.info("exit ,call method  {} , class {} ,ip {}  ", apiName, className, IpUtils.getIpFromRequest(httpServletRequest));
         } catch (Exception exitException) {
 
         }

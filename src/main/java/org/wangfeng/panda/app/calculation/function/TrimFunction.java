@@ -4,24 +4,23 @@ import org.springframework.stereotype.Component;
 
 /**
  * 字符串去除空格
- *
+ * <p>
  * 说明：
- *  1、去除字符串x前后空格
- *
+ * 1、去除字符串x前后空格
+ * <p>
  * 要求：
- *  1、x为字符串类型，否则页面提示“输入信息类型不匹配”
- *
+ * 1、x为字符串类型，否则页面提示“输入信息类型不匹配”
+ * <p>
  * 格式：
- *  1、trim(x)
- *
+ * 1、trim(x)
+ * <p>
  * 返回值类型支持：
- *  1、string
+ * 1、string
  */
 @Component
-public class TrimFunction extends BaseFunction{
+public class TrimFunction extends BaseFunction {
 
     private static final String TRIM_ERROR_MESSAGE = "字符串去除两端空格函数异常！";
-
 
     @Override
     public Object invoke(Object... objs) {
@@ -30,16 +29,16 @@ public class TrimFunction extends BaseFunction{
         checkArgsCount(1, TRIM_ERROR_MESSAGE, objs);
 
         //2、处理传入的参数
-        String str = checkString(objs[0].toString(),TRIM_ERROR_MESSAGE);
+        String str = checkString(objs[0].toString(), TRIM_ERROR_MESSAGE);
 
         //3 计算并返回结果
         return new StringBuffer().append(str.trim()).toString();
 
     }
 
-
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -52,7 +51,6 @@ public class TrimFunction extends BaseFunction{
         Object str6 = "  str6  \"";
         Object str7 = "\"a  str7  \"";
 
-
         TrimFunction trimFunction = new TrimFunction();
 
         System.out.println(trimFunction.invoke(str1));
@@ -63,8 +61,6 @@ public class TrimFunction extends BaseFunction{
         System.out.println(trimFunction.invoke(str6));
         System.out.println(trimFunction.invoke(str7));
 
-
     }
-
 
 }

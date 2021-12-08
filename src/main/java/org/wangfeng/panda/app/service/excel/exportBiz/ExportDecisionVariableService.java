@@ -17,18 +17,18 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class ExportDecisionVariableService extends ExportBaseService{
-
+public class ExportDecisionVariableService extends ExportBaseService {
 
     /**
-     *  导出决策变量
+     * 导出决策变量
+     *
      * @param businessCode
      * @throws Exception
      */
-    public void exportDecisionVariable(String businessCode,XSSFWorkbook wb) throws Exception {
+    public void exportDecisionVariable(String businessCode, XSSFWorkbook wb) throws Exception {
 
         //1、查询所有的deleteflag为0的数据
-        String mapperFullPath = ExportTypeEnum.mapperPrePath+ExportTypeEnum.DECISION_VARIABLE_EXPORT.getMapperName();
+        String mapperFullPath = ExportTypeEnum.mapperPrePath + ExportTypeEnum.DECISION_VARIABLE_EXPORT.getMapperName();
 
         Class mapperClz = Class.forName(mapperFullPath);
         MyMapper myMapper = (MyMapper) SpringUtil.getBean(mapperClz);
@@ -45,9 +45,8 @@ public class ExportDecisionVariableService extends ExportBaseService{
         List<String> headers = ExcelUtil.getHeaders(TCaDecisionVariable.class);
 
         //3、生成excel
-        wb = ExcelUtil.getXSSFWorkbook(sheetName, headers, exportList, wb,TCaDecisionVariable.class);
+        wb = ExcelUtil.getXSSFWorkbook(sheetName, headers, exportList, wb, TCaDecisionVariable.class);
 
     }
-
 
 }

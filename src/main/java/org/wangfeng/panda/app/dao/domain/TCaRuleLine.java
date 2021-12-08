@@ -66,14 +66,12 @@ public class TCaRuleLine extends AppBaseModel {
     @ExportColumn("行所属的规则的模块")
     private String ruleLineModule;
 
-
     /**
      * 规则代码
      */
     @Column(name = "rule_code")
     @ExportColumn("规则代码")
     private String ruleCode;
-
 
     /**
      * 同一个规则集下的规则ID的排序

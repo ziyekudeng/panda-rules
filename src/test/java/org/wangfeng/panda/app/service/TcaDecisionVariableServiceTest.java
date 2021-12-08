@@ -1,10 +1,10 @@
 package org.wangfeng.panda.app.service;
 
+import org.junit.Test;
 import org.wangfeng.panda.app.common.Paginate;
 import org.wangfeng.panda.app.dao.domain.TCaDecisionVariable;
 import org.wangfeng.panda.app.model.vo.TCaDecisionVariableVO;
 import org.wangfeng.panda.support.BaseDecisionVariableUT;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ public class TcaDecisionVariableServiceTest extends BaseDecisionVariableUT {
         System.out.println("=====================================结束打印结果啦=====================================");
     }
 
-
     @Test
     public void batchAdd() {
         List<TCaDecisionVariable> tCaDecisionVariableList = new ArrayList<>();
@@ -39,7 +38,6 @@ public class TcaDecisionVariableServiceTest extends BaseDecisionVariableUT {
         List<String> errorCodeList = decisionVariableService.batchAddDecisionVariable(tCaDecisionVariableList);
         System.out.println(String.format("一共插入了%d条数据！其中错误了%d条！", tCaDecisionVariableList.size(), (errorCodeList != null && errorCodeList.size() > 0 ? errorCodeList.size() : 0)));
     }
-
 
     @Test
     public void updateByPrimaryKey() {
@@ -56,6 +54,5 @@ public class TcaDecisionVariableServiceTest extends BaseDecisionVariableUT {
         Integer count = decisionVariableService.delete(7L);
         System.out.println(String.format("一共删除了%d条数据！", count));
     }
-
 
 }

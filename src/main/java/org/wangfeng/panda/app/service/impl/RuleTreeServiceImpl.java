@@ -36,7 +36,6 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
     @Autowired
     private TCaRuleTreeMapper tCaRuleTreeMapper;
 
-
     @Autowired
     private SingleRuleService singleRuleService;
     @Autowired
@@ -48,9 +47,9 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
     @Autowired
     private SequenceService sequenceService;
 
-
     /**
      * 分页查询数据
+     *
      * @param tCaRuleTreeVO
      * @param pageNo
      * @param pageSize
@@ -66,9 +65,9 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         List<TCaRuleTreeVO> tCaRuleTreeVOList = tCaRuleTreeMapper.getList(tCaRuleTreeVO);
         //4、拼装成需要的格式
         List<TCaRuleTreeVO> finalTCaRuleTreeVOList = new Page<>();
-        if(tCaRuleTreeVOList!=null) {
+        if (tCaRuleTreeVOList != null) {
             BeanUtils.copyProperties(tCaRuleTreeVOList, finalTCaRuleTreeVOList);
-            tCaRuleTreeVOList.stream().forEach(variable ->{
+            tCaRuleTreeVOList.stream().forEach(variable -> {
                 finalTCaRuleTreeVOList.add(variable.invokeToVo());
             });
         }
@@ -79,6 +78,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
     /**
      * 通过ID获取
+     *
      * @param id
      * @return
      */
@@ -87,7 +87,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         //1、获得主表数据
         TCaRuleTreeVO tCaRuleTreeVO = tCaRuleTreeMapper.getById(id);
 
-        if(tCaRuleTreeVO==null){
+        if (tCaRuleTreeVO == null) {
             throw new RuleRuntimeException("没有查到对应的决策树！");
         }
 
@@ -96,13 +96,13 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         List<TCaRuleTreeNodeVO> tCaRuleTreeNodeList = ruleTreeNodeService.queryAllNodeByTreeCode(tCaRuleTreeVO.getRuleTreeCode());
 
         //3、把node封装成一个map
-        Map<String, TCaRuleTreeNode> nodeMap = tCaRuleTreeNodeList.stream().collect(Collectors.toMap(TCaRuleTreeNode::getNodeId, tCaRuleTreeNode -> tCaRuleTreeNode,(oldValue , newValue) -> oldValue));
+        Map<String, TCaRuleTreeNode> nodeMap = tCaRuleTreeNodeList.stream().collect(Collectors.toMap(TCaRuleTreeNode::getNodeId, tCaRuleTreeNode -> tCaRuleTreeNode, (oldValue, newValue) -> oldValue));
 
         //4、完善connectors
         List<TCaRuleTreeMappingVO> tCaRuleTreeMappingVOList = new ArrayList<>();
         tCaRuleTreeMappingList.stream().forEach(mapping -> {
             TCaRuleTreeMappingVO vo = new TCaRuleTreeMappingVO();
-            BeanUtils.copyProperties(mapping,vo);
+            BeanUtils.copyProperties(mapping, vo);
             vo.setSourceNode(nodeMap.get(mapping.getSourceNodeId()));
             vo.setTargetNode(nodeMap.get(mapping.getTargetNodeId()));
             tCaRuleTreeMappingVOList.add(vo);
@@ -116,6 +116,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
     /**
      * 插入对应的决策树
+     *
      * @param tCaRuleTreeVO
      */
     @Override
@@ -130,15 +131,16 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         tCaRuleTreeMapper.insert(tCaRuleTreeVO);
 
         //3、插入对应的节点
-        ruleTreeNodeService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getNodes(),tCaRuleTreeVO.getRuleTreeCode());
+        ruleTreeNodeService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getNodes(), tCaRuleTreeVO.getRuleTreeCode());
 
         //4、插入对应的节点关联关系
-        ruleTreeMappingService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getConnectors(),tCaRuleTreeVO.getRuleTreeCode());
+        ruleTreeMappingService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getConnectors(), tCaRuleTreeVO.getRuleTreeCode());
 
     }
 
     /**
      * 更新对应的决策树
+     *
      * @param tCaRuleTreeVO
      */
     @Override
@@ -149,34 +151,33 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
         //2、更新规则树表
         Integer count = tCaRuleTreeMapper.updateByPrimaryKey(tCaRuleTreeVO);
-        if(count==0){
+        if (count == 0) {
             throw new RuleRuntimeException("更新失败，没有对应的数据！");
         }
 
         //3、当node不为空时，更新node表
-        if(tCaRuleTreeVO.getNodes()!=null && tCaRuleTreeVO.getNodes().size()>0){
+        if (tCaRuleTreeVO.getNodes() != null && tCaRuleTreeVO.getNodes().size() > 0) {
             //删除已有的所有的节点
             ruleTreeNodeService.deleteByRuleTreeCode(tCaRuleTreeVO.getRuleTreeCode());
 
             //增加新增的节点
-            ruleTreeNodeService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getNodes(),tCaRuleTreeVO.getRuleTreeCode());
+            ruleTreeNodeService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getNodes(), tCaRuleTreeVO.getRuleTreeCode());
         }
 
-
         //4、当Connectors不为空时，更新mapping关系表
-        if(tCaRuleTreeVO.getConnectors()!=null && tCaRuleTreeVO.getConnectors().size()>0){
+        if (tCaRuleTreeVO.getConnectors() != null && tCaRuleTreeVO.getConnectors().size() > 0) {
             //删除已有的所有的映射关系
             ruleTreeMappingService.deleteByRuleTreeCode(tCaRuleTreeVO.getRuleTreeCode());
 
             //增加新增的映射关系
-            ruleTreeMappingService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getConnectors(),tCaRuleTreeVO.getRuleTreeCode());
+            ruleTreeMappingService.insertByTCaRuleTreeVO(tCaRuleTreeVO.getConnectors(), tCaRuleTreeVO.getRuleTreeCode());
         }
-
 
     }
 
     /**
      * 按照ID删除对应的决策树
+     *
      * @param id
      */
     @Override
@@ -184,7 +185,6 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
         //0、查询对应的树
         TCaRuleTreeVO tCaRuleTreeVO = tCaRuleTreeMapper.getById(id);
-
 
         //1、删除决策树表中的数据
         TCaRuleTree tree = new TCaRuleTree();
@@ -200,16 +200,16 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
     }
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleTreeList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaRuleTree> tCaRuleTreeList, StringBuffer info) {
         //1、判空
-        if(tCaRuleTreeList==null){
+        if (tCaRuleTreeList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -222,26 +222,23 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
                 int count = tCaRuleTreeMapper.insertNotExist(rt);
 
-                if(count<1){
-                    log.error("code为["+rt.getRuleTreeCode()+"]的决策树重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + rt.getRuleTreeCode() + "]的决策树重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(rt.getRuleTreeCode()).append(",");
             }
         });
 
-
     }
-
-
 
     /**
      * 填充计算表达式，规则代码，输出项代码
      *
      * @param tCaRuleTree
      */
-    public void complementProperty( TCaRuleTree tCaRuleTree){
+    public void complementProperty(TCaRuleTree tCaRuleTree) {
         //生成规则集编号
         String businessCode = tCaRuleTree.getBusinessCode();
         //获取日期戳
@@ -250,7 +247,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         sequenceService.incr(YYYYMMDD, SequenceTypeEnum.RULE_TREE_SEQ.getTypeName());
         Integer num = sequenceService.queryLatestNum(YYYYMMDD, SequenceTypeEnum.RULE_TREE_SEQ.getTypeName());
         //拼接出ruleListCode
-        String ruleTreeCode = SequenceTypeEnum.RULE_TREE_SEQ+"_"+businessCode+"_"+YYYYMMDD+"_"+String.format("%03d", num);
+        String ruleTreeCode = SequenceTypeEnum.RULE_TREE_SEQ + "_" + businessCode + "_" + YYYYMMDD + "_" + String.format("%03d", num);
 
         tCaRuleTree.setRuleTreeCode(ruleTreeCode);
     }
@@ -261,36 +258,35 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
     /* ----------------------以下是计算的逻辑代码-------------------------------------*/
 
-
     /**
      * 通过决策树ID进行计算
+     *
      * @param id
      * @param jsonObject
      * @return
      */
     @Override
-    public JSONObject calculateRuleTreeById(Long id,JSONObject jsonObject) {
+    public JSONObject calculateRuleTreeById(Long id, JSONObject jsonObject) {
         //1、获取对应的决策树
         TCaRuleTreeVO tCaRuleTreeVO = getById(id);
-        log.info("获取到对应的决策树：{}",new Gson().toJson(tCaRuleTreeVO));
+        log.info("获取到对应的决策树：{}", new Gson().toJson(tCaRuleTreeVO));
 
         //2、把所有的node拼装成一个map
         List<TCaRuleTreeNodeVO> tCaRuleTreeNodeList = tCaRuleTreeVO.getNodes();
         List<TCaRuleTreeMappingVO> tCaRuleTreeMappingVOList = tCaRuleTreeVO.getConnectors();
         //转换成nodemap方便获取
-        Map<String,TCaRuleTreeNode> nodeMap = tCaRuleTreeNodeList.stream().collect(Collectors.toMap(TCaRuleTreeNode::getNodeId, tCaRuleTreeNode -> tCaRuleTreeNode,(oldValue , newValue) -> oldValue));
-
+        Map<String, TCaRuleTreeNode> nodeMap = tCaRuleTreeNodeList.stream().collect(Collectors.toMap(TCaRuleTreeNode::getNodeId, tCaRuleTreeNode -> tCaRuleTreeNode, (oldValue, newValue) -> oldValue));
 
         Map<String, List<TCaRuleTreeNode>> params = new HashMap<>();
-        tCaRuleTreeMappingVOList.stream().forEach(t->{
+        tCaRuleTreeMappingVOList.stream().forEach(t -> {
             String key = t.getSourceNodeId();
             List<TCaRuleTreeNode> list = new ArrayList<>();
-            if(params.containsKey(key)) {
+            if (params.containsKey(key)) {
                 list = params.get(key);
             }
             TCaRuleTreeNode node = nodeMap.get(t.getTargetNodeId());
             list.add(node);
-            params.put(key,list);
+            params.put(key, list);
         });
 
         //3、开始递归计算，直到获取不到子节点为止
@@ -301,7 +297,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         String nodeType = nodeMap.get(key).getNodeType();
 
         JSONObject result = new JSONObject();
-        while(params.containsKey(key)){
+        while (params.containsKey(key)) {
             //判断是否进有分支命中的标志位
             Boolean hasChanged = false;
 
@@ -309,37 +305,37 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
             List<TCaRuleTreeNode> sonList = params.get(key);
 
             //遍历所有的子节点
-            for(TCaRuleTreeNode son : sonList){
+            for (TCaRuleTreeNode son : sonList) {
 
                 key = son.getNodeId();
                 sourceId = son.getNodeRuleId();
                 nodeType = son.getNodeType();
 
                 //如果是开始节点，或者是条件节点，则直接跳过，不参与计算
-                if((NodeTypeEnum.KAI_SHI.getName().equals(nodeType)||NodeTypeEnum.TIAO_JIAN.getName().equals(nodeType))){
+                if ((NodeTypeEnum.KAI_SHI.getName().equals(nodeType) || NodeTypeEnum.TIAO_JIAN.getName().equals(nodeType))) {
                     hasChanged = true;
                     break;
                 }
 
                 //计算规则，规则集的结果
-                if(son.getNodeRuleId()==null){
-                    throw new RuleRuntimeException(String.format("该节点没有配置对应规则，节点node_id是%d",son.getNodeId()));
+                if (son.getNodeRuleId() == null) {
+                    throw new RuleRuntimeException(String.format("该节点没有配置对应规则，节点node_id是%d", son.getNodeId()));
                 }
 
                 //获取节点上的表达式，来判断是否命中该分支
                 String expression = son.getJudgementCondition();
                 //当没有对应的表达式的时候，计算并到下一层
-                if((expression==null||expression.length()==0)){
+                if ((expression == null || expression.length() == 0)) {
                     hasChanged = true;
-                    result =  realCalculate(son.getNodeRuleCode(),son.getNodeType(),jsonObject);
+                    result = realCalculate(son.getNodeRuleCode(), son.getNodeType(), jsonObject);
                     jsonObject.putAll(result);
                     break;
                 }
 
                 //如果有对应的表达式的时候，计算决策树判断逻辑，如果命中则退出循环
-                Boolean obj = (Boolean) JSEngineCalculation.calculate(expression,jsonObject);
-                if(obj){
-                    result =  realCalculate(son.getNodeRuleCode(),son.getNodeType(),jsonObject);
+                Boolean obj = (Boolean) JSEngineCalculation.calculate(expression, jsonObject);
+                if (obj) {
+                    result = realCalculate(son.getNodeRuleCode(), son.getNodeType(), jsonObject);
                     jsonObject.putAll(result);
                     hasChanged = true;
                     break;
@@ -347,7 +343,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
             }
 
             //如果全部没有被命中，则抛出异常告知！
-            if(!hasChanged){
+            if (!hasChanged) {
                 throw new RuleRuntimeException("存在没有命中的分支，请查实！");
             }
 
@@ -358,34 +354,28 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         return result;
     }
 
-
-
-
     /**
      * 按照是规则还是规则集来进行计算
+     *
      * @param id
      * @param nodeType
      * @param jsonObject
      * @return
      */
-    private JSONObject realCalculate(String code , String nodeType, JSONObject jsonObject){
+    private JSONObject realCalculate(String code, String nodeType, JSONObject jsonObject) {
         JSONObject result = new JSONObject();
-        if(code==null){
+        if (code == null) {
             throw new RuleRuntimeException("该节点没有配置对应规则");
         }
-        if(NodeTypeEnum.GUI_ZE.getName().equals(nodeType)){
-            log.info("开始计算决策树中的规则，规则CODE是：{}",code);
-            result = singleRuleService.calculateByIdORCode(null,code,jsonObject);
-        }else if(NodeTypeEnum.GUI_ZE_JI.getName().equals(nodeType)){
-            log.info("开始计算决策树中的规则集，规则集CODE是：{}",code);
-            result = ruleListService.calculateRuleListByIdORCode(null,code,jsonObject);
+        if (NodeTypeEnum.GUI_ZE.getName().equals(nodeType)) {
+            log.info("开始计算决策树中的规则，规则CODE是：{}", code);
+            result = singleRuleService.calculateByIdORCode(null, code, jsonObject);
+        } else if (NodeTypeEnum.GUI_ZE_JI.getName().equals(nodeType)) {
+            log.info("开始计算决策树中的规则集，规则集CODE是：{}", code);
+            result = ruleListService.calculateRuleListByIdORCode(null, code, jsonObject);
         }
         return result;
     }
-
-
-
-
 
 //
 //    @Autowired
@@ -535,7 +525,6 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 //        return result;
 //    }
 
-
 //    /**
 //     * 转换expression
 //     * @param expression
@@ -552,9 +541,5 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 //        }
 //        return expression;
 //    }
-
-
-
-
 
 }

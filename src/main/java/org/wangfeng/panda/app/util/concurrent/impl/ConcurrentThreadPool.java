@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-
 @Slf4j
 @Component
 public class ConcurrentThreadPool implements IConcurrentThreadPool {
@@ -46,7 +45,7 @@ public class ConcurrentThreadPool implements IConcurrentThreadPool {
 
     @Override
     public ThreadPoolExecutor getConcurrentThreadPool() {
-        if(threadPoolExecutor == null){
+        if (threadPoolExecutor == null) {
             initConcurrentThreadPool();
         }
         return threadPoolExecutor;
@@ -71,8 +70,8 @@ public class ConcurrentThreadPool implements IConcurrentThreadPool {
             try {
                 resultList.add(future.get());
             } catch (ExecutionException e) {
-                String errorMessage = e.getMessage().substring(e.getMessage().indexOf("Exception")+10,e.getMessage().length());
-                log.error("当前线程抛错了！"+errorMessage);
+                String errorMessage = e.getMessage().substring(e.getMessage().indexOf("Exception") + 10, e.getMessage().length());
+                log.error("当前线程抛错了！" + errorMessage);
                 throw new RuleRuntimeException(errorMessage);
             }
         }

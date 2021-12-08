@@ -25,6 +25,7 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
 
     /**
      * 查询列表页
+     *
      * @param tCaBusinessLineVO
      * @param pageNo
      * @param pageSize
@@ -40,9 +41,9 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
         List<TCaBusinessLine> tCaBusinessLineList = tCaBusinessLineMapper.getList(tCaBusinessLineVO.invokeToVo());
         //4、拼装成需要的格式
         List<TCaBusinessLineVO> tCaBusinessLineVOList = new Page<>();
-        if(tCaBusinessLineList!=null){
-            BeanUtils.copyProperties(tCaBusinessLineList,tCaBusinessLineVOList);
-            tCaBusinessLineList.stream().forEach(business ->{
+        if (tCaBusinessLineList != null) {
+            BeanUtils.copyProperties(tCaBusinessLineList, tCaBusinessLineVOList);
+            tCaBusinessLineList.stream().forEach(business -> {
                 tCaBusinessLineVOList.add(business.invokeToVo());
             });
         }
@@ -53,6 +54,7 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
 
     /**
      * 通过ID查询对应的业务线
+     *
      * @param id
      * @return
      */
@@ -64,6 +66,7 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
 
     /**
      * 新增业务线
+     *
      * @param tCaBusinessLine
      */
     @Override
@@ -72,40 +75,41 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
         TCaBusinessLine queryBusinessCode = new TCaBusinessLine();
         queryBusinessCode.setBusinessCode(tCaBusinessLine.getBusinessCode());
         List<TCaBusinessLine> queryBusinessCodeList = tCaBusinessLineMapper.getList(queryBusinessCode.invokeToVo());
-        if(queryBusinessCodeList!=null&&queryBusinessCodeList.size()>0){
+        if (queryBusinessCodeList != null && queryBusinessCodeList.size() > 0) {
             throw new RuleRuntimeException("业务线代码不能重复！");
         }
-
 
         TCaBusinessLine queryBusinessName = new TCaBusinessLine();
         queryBusinessName.setBusinessCode(tCaBusinessLine.getBusinessName());
         List<TCaBusinessLine> queryBusinessNameList = tCaBusinessLineMapper.getList(queryBusinessName.invokeToVo());
-        if(queryBusinessNameList!=null&&queryBusinessNameList.size()>0){
+        if (queryBusinessNameList != null && queryBusinessNameList.size() > 0) {
             throw new RuleRuntimeException("业务线名称不能重复！");
         }
 
         initSaveWord(tCaBusinessLine);
         Integer count = tCaBusinessLineMapper.insert(tCaBusinessLine);
-        if(count==0){
+        if (count == 0) {
             throw new RuleRuntimeException("新增失败，请稍后再试！");
         }
     }
 
     /**
      * 更新业务线
+     *
      * @param tCaBusinessLine
      */
     @Override
     public void updateByPrimaryKey(TCaBusinessLine tCaBusinessLine) {
         initUpdateWord(tCaBusinessLine);
         Integer count = tCaBusinessLineMapper.updateByPrimaryKey(tCaBusinessLine);
-        if(count==0){
+        if (count == 0) {
             throw new RuleRuntimeException("更新失败，没有对应的数据！");
         }
     }
 
     /**
      * 通过ID逻辑删除对应的业务线
+     *
      * @param id
      */
     @Override
@@ -115,7 +119,7 @@ public class BusinessLineServiceImpl extends AppBaseService implements BusinessL
         tCaBusinessLine.setDeleteFlag(Constants.SHORT_ONE);
         initUpdateWord(tCaBusinessLine);
         Integer count = tCaBusinessLineMapper.updateByPrimaryKey(tCaBusinessLine);
-        if(count==0){
+        if (count == 0) {
             throw new RuleRuntimeException("删除失败，没有对应的数据！");
         }
     }

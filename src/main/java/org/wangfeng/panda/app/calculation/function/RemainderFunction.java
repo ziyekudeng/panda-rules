@@ -6,25 +6,24 @@ import org.wangfeng.panda.app.util.NumberUtils;
 
 /**
  * 取余函数
- *
+ * <p>
  * 说明：
- *  1、余数，取余运算，x除以y
- *
+ * 1、余数，取余运算，x除以y
+ * <p>
  * 要求：
- *  1、x，y均为数字，且y不能为0；否则页面提示“输入信息类型不匹配”
- *
+ * 1、x，y均为数字，且y不能为0；否则页面提示“输入信息类型不匹配”
+ * <p>
  * 格式：
- *  1、x%y
- *
+ * 1、x%y
+ * <p>
  * 返回值类型支持：
- *  1、integer
- *  2、double
+ * 1、integer
+ * 2、double
  */
 @Component
 public class RemainderFunction extends BaseFunction {
 
     private static final String REMAINDER_ERROR_MESSAGE = "取余函数异常！";
-
 
     @Override
     public Object invoke(Object... objs) {
@@ -40,14 +39,14 @@ public class RemainderFunction extends BaseFunction {
         //3、计算并返回结果
         try {
             return NumberUtils.toNumber(objs[0]).divideAndRemainder(NumberUtils.toNumber(objs[1]));
-        }catch (Exception e){
-            throw new RuleRuntimeException(REMAINDER_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        } catch (Exception e) {
+            throw new RuleRuntimeException(REMAINDER_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
     }
 
-
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -56,11 +55,7 @@ public class RemainderFunction extends BaseFunction {
         Object o2 = 3.2;
 
         RemainderFunction remainderFunction = new RemainderFunction();
-        System.out.println(remainderFunction.invoke(o1,o2));
+        System.out.println(remainderFunction.invoke(o1, o2));
     }
-
-
-
-
 
 }

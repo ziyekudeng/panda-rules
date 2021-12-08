@@ -22,9 +22,9 @@ public class RuleTreeNodeServiceImpl extends AppBaseService implements RuleTreeN
     @Autowired
     private TCaRuleTreeNodeMapper tCaRuleTreeNodeMapper;
 
-
     /**
      * 通过treeId获取所有的相关的节点信息
+     *
      * @param ruleTreeCode
      * @return
      */
@@ -38,6 +38,7 @@ public class RuleTreeNodeServiceImpl extends AppBaseService implements RuleTreeN
 
     /**
      * 通过TCaRuleTreeVO去插入对应的node数据
+     *
      * @param nodes
      * @param ruleTreeCode
      */
@@ -52,18 +53,18 @@ public class RuleTreeNodeServiceImpl extends AppBaseService implements RuleTreeN
             initSaveWord(tCaRuleTreeNode);
 
             TCaRuleTreeNode finalNode = new TCaRuleTreeNode();
-            BeanUtils.copyProperties(tCaRuleTreeNode,finalNode);
+            BeanUtils.copyProperties(tCaRuleTreeNode, finalNode);
             finalNodes.add(finalNode);
         });
         //批量插入
-        if(finalNodes!=null&& finalNodes.size()>0){
+        if (finalNodes != null && finalNodes.size() > 0) {
             tCaRuleTreeNodeMapper.insertList(finalNodes);
         }
     }
 
-
     /**
      * 通过treeId删除所有对应的node
+     *
      * @param ruleTreeCode
      */
     @Override
@@ -77,13 +78,14 @@ public class RuleTreeNodeServiceImpl extends AppBaseService implements RuleTreeN
 
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleTreeNodeList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaRuleTreeNode> tCaRuleTreeNodeList, StringBuffer info) {
         //1、判空
-        if(tCaRuleTreeNodeList==null){
+        if (tCaRuleTreeNodeList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -96,15 +98,14 @@ public class RuleTreeNodeServiceImpl extends AppBaseService implements RuleTreeN
 
                 int count = tCaRuleTreeNodeMapper.insertNotExist(tn);
 
-                if(count<1){
-                    log.error("code为["+tn.getNodeId()+"]的决策树节点重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + tn.getNodeId() + "]的决策树节点重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(tn.getRuleTreeCode()).append(",");
             }
         });
     }
-
 
 }

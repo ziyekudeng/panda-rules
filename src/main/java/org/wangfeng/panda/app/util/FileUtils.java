@@ -11,6 +11,7 @@ public class FileUtils {
 
     /**
      * file转bytes
+     *
      * @param filePath
      * @return
      */
@@ -45,9 +46,9 @@ public class FileUtils {
                 }
             } catch (IOException ex) {
                 log.error("");
-            } finally{
+            } finally {
                 try {
-                    if(null!=fis){
+                    if (null != fis) {
                         fis.close();
                     }
                 } catch (IOException ex) {
@@ -59,13 +60,13 @@ public class FileUtils {
         return buffer;
     }
 
-
     /**
      * bytes转file
+     *
      * @param buffer
      * @param filePath
      */
-    public static void bytesToFile(byte[] buffer, final String filePath){
+    public static void bytesToFile(byte[] buffer, final String filePath) {
 
         File file = new File(filePath);
 
@@ -82,8 +83,8 @@ public class FileUtils {
             log.error("");
         } catch (IOException e) {
             log.error("");
-        } finally{
-            if(null!=bufferedOutput){
+        } finally {
+            if (null != bufferedOutput) {
                 try {
                     bufferedOutput.close();
                 } catch (IOException e) {
@@ -91,7 +92,7 @@ public class FileUtils {
                 }
             }
 
-            if(null != output){
+            if (null != output) {
                 try {
                     output.close();
                 } catch (IOException e) {
@@ -101,7 +102,6 @@ public class FileUtils {
         }
 
     }
-
 
 //    /**
 //     * file 转 multipartFile
@@ -124,21 +124,21 @@ public class FileUtils {
 //        }
 //    }
 
-
     /**
      * multipartFile 转 file
+     *
      * @param multipartFile
      * @return
      */
 
     public static File multipartFileToFile(MultipartFile multipartFile) {
-        if (multipartFile == null){
+        if (multipartFile == null) {
             throw new RuleRuntimeException("读取不到文件");
         }
         File file = null;
         try {
             InputStream is = multipartFile.getInputStream();
-            file = new File( multipartFile.getOriginalFilename());
+            file = new File(multipartFile.getOriginalFilename());
             OutputStream out = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int len = 0;
@@ -152,7 +152,5 @@ public class FileUtils {
         }
         return file;
     }
-
-
 
 }

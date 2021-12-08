@@ -21,13 +21,11 @@ public class TCaRuleListVO extends TCaRuleList {
     @ApiModelProperty("状态位（1：启用，0：停用）")
     private String StatusName;
 
-
     /**
      * 关键字
      */
     @ApiModelProperty("关键字")
     private String keyword;
-
 
     /**
      * 规则集下所有的规则VO的集合

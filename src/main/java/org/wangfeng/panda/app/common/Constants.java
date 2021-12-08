@@ -38,13 +38,11 @@ public class Constants {
 
     public static final Date DEFAULT_DATE_STRING = new Date("1111/11/11 11:11:11");
 
-
     /*
      * 批量插入相关
      */
     public static final Integer BATCH_INSERT_SIZE_500 = 500;
     public static final Integer BATCH_INSERT_SIZE_1000 = 1000;
-
 
     /*
      * 符号相关

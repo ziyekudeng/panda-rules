@@ -1,11 +1,9 @@
 package org.wangfeng.panda.app.cache;
 
-
 /**
  * Created by wangfeng on 2019/10/8.
  */
 public class RedisKey {
-
 
     public static String SINGLE_RULE = "single_rule";
 
@@ -19,6 +17,5 @@ public class RedisKey {
      * 全量规则入redis的key
      */
     public static String ALL_SINGLE_RULE = "all_single_rule";
-
 
 }

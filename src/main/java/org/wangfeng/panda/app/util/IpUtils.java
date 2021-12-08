@@ -16,16 +16,16 @@ public class IpUtils {
     }
 
     public static String longToIpV4(long longIp) {
-        int octet3 = (int)((longIp >> 24) % 256L);
-        int octet2 = (int)((longIp >> 16) % 256L);
-        int octet1 = (int)((longIp >> 8) % 256L);
-        int octet0 = (int)(longIp % 256L);
+        int octet3 = (int) ((longIp >> 24) % 256L);
+        int octet2 = (int) ((longIp >> 16) % 256L);
+        int octet1 = (int) ((longIp >> 8) % 256L);
+        int octet0 = (int) (longIp % 256L);
         return octet3 + "." + octet2 + "." + octet1 + "." + octet0;
     }
 
     public static long ipV4ToLong(String ip) {
         String[] octets = ip.split("\\.");
-        return (Long.parseLong(octets[0]) << 24) + (long)(Integer.parseInt(octets[1]) << 16) + (long)(Integer.parseInt(octets[2]) << 8) + (long)Integer.parseInt(octets[3]);
+        return (Long.parseLong(octets[0]) << 24) + (long) (Integer.parseInt(octets[1]) << 16) + (long) (Integer.parseInt(octets[2]) << 8) + (long) Integer.parseInt(octets[3]);
     }
 
     public static boolean isIPv4Private(String ip) {
@@ -43,7 +43,7 @@ public class IpUtils {
         if ((ip = request.getHeader("x-forwarded-for")) != null) {
             StrTokenizer tokenizer = new StrTokenizer(ip, ",");
 
-            while(tokenizer.hasNext()) {
+            while (tokenizer.hasNext()) {
                 ip = tokenizer.nextToken().trim();
                 if (isIPv4Valid(ip) && !isIPv4Private(ip)) {
                     found = true;

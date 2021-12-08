@@ -1,6 +1,5 @@
 package org.wangfeng.panda.app.common.base;
 
-
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import java.util.Date;
 
 /**
  * 为所有的实体操作类基类，提供更新时必要的操作控制和创建时的公用字段信息
- *
  */
 public abstract class AppBaseModel implements Serializable {
 
@@ -137,7 +135,6 @@ public abstract class AppBaseModel implements Serializable {
     public void setDeleteFlag(Short deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-
 
     @Override
     public String toString() {

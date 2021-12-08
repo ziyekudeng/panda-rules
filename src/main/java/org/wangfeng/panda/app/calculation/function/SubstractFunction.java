@@ -6,25 +6,24 @@ import org.wangfeng.panda.app.util.NumberUtils;
 
 /**
  * 减法函数
- *
+ * <p>
  * 说明：
- *  1、减法计算，计算x减去y之差
- *
+ * 1、减法计算，计算x减去y之差
+ * <p>
  * 要求：
- *  1、x，y均为数字，可以为浮点数、整数类型；否则页面提示“输入信息类型不匹配”
- *
+ * 1、x，y均为数字，可以为浮点数、整数类型；否则页面提示“输入信息类型不匹配”
+ * <p>
  * 格式：
- *  1、x-y
- *
+ * 1、x-y
+ * <p>
  * 返回值类型支持：
- *  1、integer
- *  2、double
+ * 1、integer
+ * 2、double
  */
 @Component
 public class SubstractFunction extends BaseFunction {
 
     private static final String SUBSTRACT_ERROR_MESSAGE = "减法函数异常！";
-
 
     @Override
     public Object invoke(Object... objs) {
@@ -40,14 +39,14 @@ public class SubstractFunction extends BaseFunction {
         //3、计算并返回结果
         try {
             return NumberUtils.toNumber(objs[0]).subtract(NumberUtils.toNumber(objs[1]));
-        }catch (Exception e){
-            throw new RuleRuntimeException(SUBSTRACT_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        } catch (Exception e) {
+            throw new RuleRuntimeException(SUBSTRACT_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
     }
 
-
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -56,10 +55,8 @@ public class SubstractFunction extends BaseFunction {
         Object o2 = 3.2;
 
         SubstractFunction substractFunction = new SubstractFunction();
-        System.out.println(substractFunction.invoke(o1,o2));
+        System.out.println(substractFunction.invoke(o1, o2));
     }
-
-
 
 }
 

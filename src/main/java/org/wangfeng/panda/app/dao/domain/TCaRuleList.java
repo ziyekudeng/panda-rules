@@ -23,7 +23,7 @@ public class TCaRuleList extends AppBaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SELECT LAST_INSERT_ID()")
     @ApiModelProperty("自增主键ID")
-    @NotNull(message="自增主键不能为空" , groups = {DeleteOperation.class, UpdateOperation.class})
+    @NotNull(message = "自增主键不能为空", groups = {DeleteOperation.class, UpdateOperation.class})
     @ExportColumn("自增主键ID")
     private Long id;
 
@@ -40,7 +40,7 @@ public class TCaRuleList extends AppBaseModel {
      */
     @Column(name = "rule_list_name")
     @ApiModelProperty("规则集名称")
-    @NotNull(message="规则集名称不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "规则集名称不能为空", groups = {AddOperation.class})
     @ExportColumn("规则集名称")
     private String ruleListName;
 
@@ -65,7 +65,7 @@ public class TCaRuleList extends AppBaseModel {
      * 状态位（1：启用，0：停用）
      */
     @ApiModelProperty("状态位（1：启用，0：停用）")
-    @NotNull(message="状态位不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "状态位不能为空", groups = {AddOperation.class})
     @ExportColumn("状态位（1：启用，0：停用）")
     private Short status;
 
@@ -73,21 +73,22 @@ public class TCaRuleList extends AppBaseModel {
      * 业务线的code
      */
     @Column(name = "business_code")
-    @NotNull(message="业务线的编号不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "业务线的编号不能为空", groups = {AddOperation.class})
     @ExportColumn("业务线的code")
     private String businessCode;
 
     /**
      * 实体类向vo的转换方法
+     *
      * @return
      */
-    public TCaRuleListVO invokeToVo(){
+    public TCaRuleListVO invokeToVo() {
         TCaRuleListVO vo = new TCaRuleListVO();
-        BeanUtils.copyProperties(this,vo);
+        BeanUtils.copyProperties(this, vo);
 
         //状态名称赋值
         StatusEnum statusEnum = StatusEnum.getByCode(vo.getStatus());
-        if(statusEnum!=null){
+        if (statusEnum != null) {
             vo.setStatusName(statusEnum.getName());
         }
 

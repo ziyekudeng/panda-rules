@@ -26,7 +26,6 @@ public interface SingleRuleService {
      */
     public TCaSingleRuleVO getById(Long id);
 
-
     /**
      * 根据code查找对应的对象
      *
@@ -41,8 +40,7 @@ public interface SingleRuleService {
      * @param tCaSingleRuleVO
      * @return
      */
-    public void insert (TCaSingleRuleVO tCaSingleRuleVO);
-
+    public void insert(TCaSingleRuleVO tCaSingleRuleVO);
 
     /**
      * 更新
@@ -62,35 +60,37 @@ public interface SingleRuleService {
 
     /**
      * 测试对应的规则表达式是否正确
+     *
      * @param tCaSingleRule
      * @param params
      */
-    public Object testRuleExpression(TCaSingleRule tCaSingleRule, Map<String,Object> params);
-
+    public Object testRuleExpression(TCaSingleRule tCaSingleRule, Map<String, Object> params);
 
     /**
      * 计算对应的表达式
-     * @param ruleId        规则ID
-     * @param ruleCode      规则CODE
-     * @param jsonObject    传入的参数
+     *
+     * @param ruleId     规则ID
+     * @param ruleCode   规则CODE
+     * @param jsonObject 传入的参数
      * @return
      */
-    public JSONObject calculateByIdORCode(Long ruleId, String ruleCode , JSONObject jsonObject);
+    public JSONObject calculateByIdORCode(Long ruleId, String ruleCode, JSONObject jsonObject);
 
     /**
      * 批量计算表达式
+     *
      * @param ruleIdList
      * @param jsonObject
      * @return
      */
     public JSONObject calculateByIdList(List<Long> ruleIdList, JSONObject jsonObject);
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaSingleRuleList
      * @param info
      */
-    public void batchInsertNotExist(List<TCaSingleRule> tCaSingleRuleList , StringBuffer info);
+    public void batchInsertNotExist(List<TCaSingleRule> tCaSingleRuleList, StringBuffer info);
 
 }

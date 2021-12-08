@@ -13,7 +13,6 @@ public class TCaDecisionVariableVO extends TCaDecisionVariable {
     @ApiModelProperty("变量类型名称（1-字符串；2-整数；3-布尔；4-浮点数；5-日期；6-时间；7-数组；8-枚举值）")
     private String variableTypeName;
 
-
     /**
      * 业务线名称
      */
@@ -26,13 +25,11 @@ public class TCaDecisionVariableVO extends TCaDecisionVariable {
     @ApiModelProperty("是否是决策变量（0-否；1-是）")
     private String decisionVariableFlagName;
 
-
     /**
      * 状态位（1：启用，0：停用）
      */
     @ApiModelProperty("状态位（1：启用，0：停用）")
     private String statusName;
-
 
     /**
      * 数据来源名称（暂时未定，详见枚举）

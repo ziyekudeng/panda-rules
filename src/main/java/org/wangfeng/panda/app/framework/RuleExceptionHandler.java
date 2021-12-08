@@ -49,15 +49,7 @@ public class RuleExceptionHandler extends AppBaseController {
         object.addProperty("code", HttpStatus.EXPECTATION_FAILED.value());
         object.addProperty("message", e.getMessage());
 
-
         return object.toString();
     }
-
-
-
-
-
-
-
 
 }

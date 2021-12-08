@@ -15,7 +15,6 @@ import org.wangfeng.panda.app.service.RuleTreeService;
 import org.wangfeng.panda.app.validation.group.AddOperation;
 import org.wangfeng.panda.app.validation.group.UpdateOperation;
 
-
 @Slf4j
 @RestController
 @RequestMapping(value = "/m/rule/tree")
@@ -40,12 +39,9 @@ public class RuleTreeController extends AppBaseController {
 
     })
     public ResponseEntity getList(@ApiParam(value = "查询条件，是对象", required = true) @RequestBody @Validated TCaRuleTreeVO tCaRuleTreeVO) {
-        Paginate paginate = ruleTreeService.queryPagenate(tCaRuleTreeVO,getPageIndex(),getPageSize());
-        return new ResponseEntity(ok("获取成功",paginate), HttpStatus.OK);
+        Paginate paginate = ruleTreeService.queryPagenate(tCaRuleTreeVO, getPageIndex(), getPageSize());
+        return new ResponseEntity(ok("获取成功", paginate), HttpStatus.OK);
     }
-
-
-
 
     /**
      * 通过ID单个查询
@@ -63,13 +59,11 @@ public class RuleTreeController extends AppBaseController {
     })
     public ResponseEntity getById(@ApiParam(value = "决策树的主键ID", required = true) @RequestParam Long id) {
         TCaRuleTreeVO tCaRuleTreeVO = ruleTreeService.getById(id);
-        if(tCaRuleTreeVO==null){
-            return new ResponseEntity(fail("没有查到对应数据！"),HttpStatus.EXPECTATION_FAILED);
+        if (tCaRuleTreeVO == null) {
+            return new ResponseEntity(fail("没有查到对应数据！"), HttpStatus.EXPECTATION_FAILED);
         }
-        return new ResponseEntity(ok("获取成功",tCaRuleTreeVO), HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", tCaRuleTreeVO), HttpStatus.OK);
     }
-
-
 
     /**
      * 新增决策树
@@ -93,10 +87,6 @@ public class RuleTreeController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
-
-
-
     /**
      * 编辑决策树
      *
@@ -119,8 +109,6 @@ public class RuleTreeController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
-
     /**
      * 删除决策树
      *
@@ -139,6 +127,5 @@ public class RuleTreeController extends AppBaseController {
         ruleTreeService.delete(id);
         return new ResponseEntity(ok("删除成功"), HttpStatus.OK);
     }
-
 
 }

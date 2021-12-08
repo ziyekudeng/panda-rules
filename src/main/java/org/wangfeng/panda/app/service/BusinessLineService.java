@@ -8,6 +8,7 @@ public interface BusinessLineService {
 
     /**
      * 查找列表页
+     *
      * @param tCaBusinessLineVO
      * @param pageNo
      * @param pageSize
@@ -30,7 +31,6 @@ public interface BusinessLineService {
      * @return
      */
     public void insert(TCaBusinessLine tCaBusinessLine);
-
 
     /**
      * 更新

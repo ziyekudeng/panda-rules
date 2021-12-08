@@ -1,18 +1,18 @@
 package org.wangfeng.panda.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import org.wangfeng.panda.api.enums.ResponseStatusEnum;
-import org.wangfeng.panda.app.common.base.AppBaseController;
-import org.wangfeng.panda.app.common.exception.RuleRuntimeException;
-import org.wangfeng.panda.app.service.RuleListService;
-import org.wangfeng.panda.app.service.RuleTreeService;
-import org.wangfeng.panda.app.service.SingleRuleService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.wangfeng.panda.api.enums.ResponseStatusEnum;
+import org.wangfeng.panda.app.common.base.AppBaseController;
+import org.wangfeng.panda.app.common.exception.RuleRuntimeException;
+import org.wangfeng.panda.app.service.RuleListService;
+import org.wangfeng.panda.app.service.RuleTreeService;
+import org.wangfeng.panda.app.service.SingleRuleService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping(value = "/m/api")
 @Api(value = "panda-calculation-api", description = "计算API", tags = "api")
 public class CalculationApiController extends AppBaseController {
-
 
     @Autowired
     private SingleRuleService singleRuleService;
@@ -59,7 +58,7 @@ public class CalculationApiController extends AppBaseController {
         //2、计算结果，如果有异常，则返回错误
         try {
             log.info("传入的参数是：" + id + jsonObject.toJSONString());
-            JSONObject result = singleRuleService.calculateByIdORCode(id, null,jsonObject);
+            JSONObject result = singleRuleService.calculateByIdORCode(id, null, jsonObject);
             log.info("计算的结果是：" + result.toJSONString());
             return new ResponseEntity(ok(ResponseStatusEnum.CALCULATE_SUCCESS.getMessage(), ResponseStatusEnum.CALCULATE_SUCCESS.getCode(), result), HttpStatus.OK);
         } catch (RuleRuntimeException ruleException) {
@@ -71,7 +70,6 @@ public class CalculationApiController extends AppBaseController {
         }
 
     }
-
 
     /**
      * 多个规则的运算逻辑
@@ -99,7 +97,6 @@ public class CalculationApiController extends AppBaseController {
             return new ResponseEntity(fail(ResponseStatusEnum.CALCULATE_ARGS_ERROR.getMessage(), ResponseStatusEnum.CALCULATE_ARGS_ERROR.getCode(), null), HttpStatus.OK);
         }
 
-
         try {
             log.info("传入的参数是：" + idList + jsonObject.toJSONString());
 
@@ -124,7 +121,6 @@ public class CalculationApiController extends AppBaseController {
         }
 
     }
-
 
     /**
      * 单个规则集的运算逻辑
@@ -155,7 +151,7 @@ public class CalculationApiController extends AppBaseController {
         //2、计算结果，如果有异常，则返回错误
         try {
             log.info("传入的参数是：" + id + jsonObject.toJSONString());
-            JSONObject result = ruleListService.calculateRuleListByIdORCode(id,null, jsonObject);
+            JSONObject result = ruleListService.calculateRuleListByIdORCode(id, null, jsonObject);
             log.info("计算的结果是：" + result.toJSONString());
             return new ResponseEntity(ok(ResponseStatusEnum.CALCULATE_SUCCESS.getMessage(), ResponseStatusEnum.CALCULATE_SUCCESS.getCode(), result), HttpStatus.OK);
         } catch (RuleRuntimeException ruleException) {
@@ -166,9 +162,7 @@ public class CalculationApiController extends AppBaseController {
             return new ResponseEntity(fail(ResponseStatusEnum.CALCULATE_RESULT_ERROR.getMessage(), ResponseStatusEnum.CALCULATE_RESULT_ERROR.getCode(), null), HttpStatus.OK);
         }
 
-
     }
-
 
     /**
      * 单个规则树的运算逻辑
@@ -207,32 +201,7 @@ public class CalculationApiController extends AppBaseController {
             return new ResponseEntity(fail(ResponseStatusEnum.CALCULATE_RESULT_ERROR.getMessage(), ResponseStatusEnum.CALCULATE_RESULT_ERROR.getCode(), null), HttpStatus.OK);
         }
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //    /**
 //     * 单个规则树的运算逻辑
@@ -268,7 +237,5 @@ public class CalculationApiController extends AppBaseController {
 //
 //
 //    }
-
-
 
 }

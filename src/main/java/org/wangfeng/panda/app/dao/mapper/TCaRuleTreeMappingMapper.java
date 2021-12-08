@@ -10,10 +10,8 @@ import java.util.List;
 
 public interface TCaRuleTreeMappingMapper extends MyMapper<TCaRuleTreeMapping> {
 
-
     @Select("select * from t_ca_rule_tree_mapping where rule_tree_code = #{ruleTreeCode} and delete_flag = 0 and status = 1")
     public List<TCaRuleTreeMapping> queryAllMappingByTreeCode(String treeCode);
-
 
     @Update("<script>"
             + "update t_ca_rule_tree_mapping "
@@ -26,23 +24,19 @@ public interface TCaRuleTreeMappingMapper extends MyMapper<TCaRuleTreeMapping> {
             + "</script>")
     public void deleteByRuleTreeId(TCaRuleTreeMapping tCaRuleTreeMapping);
 
-
     @Select("select * from t_ca_rule_tree_mapping where delete_flag = 0")
     public List<TCaRuleTreeMapping> queryAll(TCaRuleTreeMapping tCaRuleTreeMapping);
-
 
     @Select(" <script> " +
             " select *" +
             " from t_ca_rule_tree_mapping  " +
             " where rule_tree_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             "  and delete_flag = 0 " +
             "</script>")
     public List<TCaRuleTreeMapping> queryListByTreeCodeList(List<String> RuleTreeCodeList);
-
-
 
     @Insert("<script>" +
             "insert into t_ca_rule_tree_mapping " +
@@ -53,6 +47,5 @@ public interface TCaRuleTreeMappingMapper extends MyMapper<TCaRuleTreeMapping> {
             "select * from t_ca_rule_tree_mapping where source_node_id = #{sourceNodeId} and target_node_id = #{targetNodeId} and rule_tree_code = #{ruleTreeCode} and delete_flag = 0) " +
             "</script>")
     public int insertNotExist(TCaRuleTreeMapping tCaRuleTreeMapping);
-
 
 }

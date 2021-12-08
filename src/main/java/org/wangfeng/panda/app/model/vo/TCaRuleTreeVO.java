@@ -21,13 +21,11 @@ public class TCaRuleTreeVO extends TCaRuleTree {
     @ApiModelProperty("状态位（1：启用，0：停用）")
     private String StatusName;
 
-
     /**
      * 关键字
      */
     @ApiModelProperty("关键字")
     private String keyword;
-
 
     /**
      * 该决策树的所有节点
@@ -40,6 +38,5 @@ public class TCaRuleTreeVO extends TCaRuleTree {
      */
     @ApiModelProperty("该决策树的所有的连接元素")
     private List<TCaRuleTreeMappingVO> connectors;
-
 
 }

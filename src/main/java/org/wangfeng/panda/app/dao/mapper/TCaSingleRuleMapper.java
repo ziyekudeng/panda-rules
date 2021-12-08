@@ -9,9 +9,7 @@ import org.wangfeng.panda.app.model.vo.TCaSingleRuleVO;
 
 import java.util.List;
 
-
 public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
-
 
     @Select("<script>"
             + "SELECT rule.*,business.business_name as businessName "
@@ -84,11 +82,6 @@ public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
             + "</script>")
     public List<TCaSingleRuleVO> getList(TCaSingleRuleVO tCaSingleRuleVO);
 
-
-
-
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM t_ca_single_rule "
@@ -96,15 +89,12 @@ public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
             + "</script>")
     public TCaSingleRule getById(Long id);
 
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM t_ca_single_rule "
             + "WHERE rule_code = #{ruleCode} and delete_flag=0 "
             + "</script>")
     public TCaSingleRule getByCode(String ruleCode);
-
 
     @Update("<script>"
             + "update t_ca_single_rule "
@@ -159,8 +149,6 @@ public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
     @Override
     public int updateByPrimaryKey(TCaSingleRule tCaSingleRule);
 
-
-
     @Select("select * from t_ca_single_rule where delete_flag = 0")
     public List<TCaSingleRule> queryAll(TCaSingleRule tCaSingleRule);
 
@@ -169,13 +157,11 @@ public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
             "from t_ca_single_rule " +
             "where delete_flag = 0 " +
             "and rule_code in " +
-            "<foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            "<foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             " #{item}" +
-            "</foreach> "+
+            "</foreach> " +
             "</script>")
     public List<TCaSingleRule> queryByIdList(List<String> ids);
-
-
 
     @Insert("<script>" +
             "insert into t_ca_single_rule " +
@@ -186,9 +172,5 @@ public interface TCaSingleRuleMapper extends MyMapper<TCaSingleRule> {
             "select * from t_ca_single_rule where rule_code = #{ruleCode} and delete_flag = 0) " +
             "</script>")
     public int insertNotExist(TCaSingleRule tCaSingleRule);
-
-
-
-
 
 }

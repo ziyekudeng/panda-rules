@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @Slf4j
 @SuppressWarnings("all")
 public class JSEngineCalculation {
@@ -31,7 +30,6 @@ public class JSEngineCalculation {
         ScriptEngineManager manager = new ScriptEngineManager();
         engine = manager.getEngineByName("javascript");
     }
-
 
     /**
      * 执行计算的方法（目前仅用在决策树中的判断中会用到，先不去掉，后期再看）
@@ -76,28 +74,28 @@ public class JSEngineCalculation {
                     //按照反射获取对应的类
                     String fullClassName = Constants.PRE_FUNCTION_CLASS_NAME + FunctionEnum.getByFunctionName(className).getClassName();
                     Class clz = Class.forName(fullClassName);
-                    Object obj =  SpringUtil.getBean(clz);
+                    Object obj = SpringUtil.getBean(clz);
                     //获得对应的方法
                     Method m = obj.getClass().getDeclaredMethod(Constants.FUNCTION_METHOD_NAME, Object[].class);
                     Object[] strings = new Object[args.size()];
                     args.toArray(strings);
                     result = m.invoke(obj, (Object) strings);
-                } catch(RuleRuntimeException e){
-                    log.error("单个计算错误，错误信息：{}，表达式是：{}",e.getMessage(),expressionStr);
+                } catch (RuleRuntimeException e) {
+                    log.error("单个计算错误，错误信息：{}，表达式是：{}", e.getMessage(), expressionStr);
                     throw new RuleRuntimeException(e.getMessage());
-                }catch (InvocationTargetException e){
+                } catch (InvocationTargetException e) {
                     String errorMsg = ((InvocationTargetException) e).getTargetException().getMessage();
                     log.error("反射计算错误！" + errorMsg);
                     throw new RuleRuntimeException(errorMsg);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     log.error("获取方法和类出错！" + e.getMessage());
                     throw new RuleRuntimeException("获取方法和类出错！");
                 }
 
-                if(result instanceof Date){
-                    result = "\""+ DateUtils.getString((Date) result,DateUtils.DEFAULT_FORMAT)+"\"";
+                if (result instanceof Date) {
+                    result = "\"" + DateUtils.getString((Date) result, DateUtils.DEFAULT_FORMAT) + "\"";
                 }
-                expressionStr = expressionStr.replace("[["+function+"]]",result.toString());
+                expressionStr = expressionStr.replace("[[" + function + "]]", result.toString());
 
             }
 
@@ -105,8 +103,8 @@ public class JSEngineCalculation {
 
         //第二步解析，传入参数
         String[] arr = expressionStr.split("[{}]");
-        for(int i=0;i<arr.length;i++){
-            if(jsonObject.containsKey(arr[i])){
+        for (int i = 0; i < arr.length; i++) {
+            if (jsonObject.containsKey(arr[i])) {
                 Object o = jsonObject.get(arr[i]);
                 String before = "\\{\\{" + arr[i] + "\\}\\}";
                 String after = o.toString();
@@ -129,7 +127,6 @@ public class JSEngineCalculation {
 
     }
 
-
     /**
      * 得到方法的数量（同上，暂时不去掉）
      *
@@ -147,7 +144,6 @@ public class JSEngineCalculation {
         return functions.size();
     }
 
-
     /**
      * JS计算
      *
@@ -160,7 +156,7 @@ public class JSEngineCalculation {
             init();
         }
         try {
-            if("".equals(script)){
+            if ("".equals(script)) {
                 return "";
             }
             return (Object) engine.eval(script);
@@ -195,34 +191,32 @@ public class JSEngineCalculation {
 
 
 
-/*-------------------------------------------以下是2.0之后的计算逻辑，以对象的形式，而不是以字符串的形式---------------------------------------------*/
-
-
+    /*-------------------------------------------以下是2.0之后的计算逻辑，以对象的形式，而不是以字符串的形式---------------------------------------------*/
 
     /**
      * 计算多行
      * 用在single/then/else
      */
-    public static Object calculateLines(List<TCaRuleLineVO> lineModleList , JSONObject originJSONObject){
+    public static Object calculateLines(List<TCaRuleLineVO> lineModleList, JSONObject originJSONObject) {
 
         Object finalResult = null;
 
         //定义一个规则内含line的json
         JSONObject lineInObject = new JSONObject();
 
-        for(int i=0;i<lineModleList.size();i++){
+        for (int i = 0; i < lineModleList.size(); i++) {
 
             //计算该行
             TCaRuleLineVO singleLine = lineModleList.get(i);
-            calculateLine(singleLine,originJSONObject,lineInObject);
+            calculateLine(singleLine, originJSONObject, lineInObject);
             //得到结果
             Object result = singleLine.getLineResult();
             //如果不是最后一行，则放入json中
-            if(i< lineModleList.size()-1){
-                lineInObject.put("#Line"+singleLine.getSort(),result);
-            }else if(i == lineModleList.size()-1){
+            if (i < lineModleList.size() - 1) {
+                lineInObject.put("#Line" + singleLine.getSort(), result);
+            } else if (i == lineModleList.size() - 1) {
                 //如果是最后一行，则输出
-                finalResult =  result;
+                finalResult = result;
             }
         }
 
@@ -233,39 +227,39 @@ public class JSEngineCalculation {
         return finalResult;
     }
 
-
     /**
      * 计算单行
+     *
      * @param lineModle
      * @param originJSONObject
      * @param lineInObject
      */
-    public static void calculateLine(TCaRuleLineVO lineModle,JSONObject originJSONObject,JSONObject lineInJSONObject){
+    public static void calculateLine(TCaRuleLineVO lineModle, JSONObject originJSONObject, JSONObject lineInJSONObject) {
 
         Object lineResult = null;
 
         //获取入参
         List<TCaCellVariable> variableCellModelList = lineModle.getTCaCellVariableList();
-        if (variableCellModelList==null || variableCellModelList.size() < 1){
+        if (variableCellModelList == null || variableCellModelList.size() < 1) {
             throw new RuntimeException("入参个数有问题");
         }
         //获取运算符
         String functionCode = lineModle.getLineFunctionCode();
 
-        if(StringUtils.isBlank(functionCode)){
+        if (StringUtils.isBlank(functionCode)) {
             //没有运算符的时候时简单计算
             //简单计算的时候应当只有一个参数进来
-            if(variableCellModelList.size()!=1){
+            if (variableCellModelList.size() != 1) {
                 throw new RuntimeException("在single模块内，简单计算时候，参数数量不正确！");
             }
             //得到value
-            lineResult = getValue(variableCellModelList.get(0),originJSONObject,lineInJSONObject);
+            lineResult = getValue(variableCellModelList.get(0), originJSONObject, lineInJSONObject);
 
             lineModle.setLineResult(lineResult);
-        }else{
+        } else {
             FunctionEnum functionEnum = FunctionEnum.getByFunctionCode(functionCode);
 
-            if(functionEnum == null){
+            if (functionEnum == null) {
                 throw new RuleRuntimeException("没有对应的表达式！");
             }
 
@@ -275,26 +269,26 @@ public class JSEngineCalculation {
                 //按照反射获取对应的类
                 String fullClassName = Constants.PRE_FUNCTION_CLASS_NAME + functionEnum.getClassName();
                 Class clz = Class.forName(fullClassName);
-                Object obj =  SpringUtil.getBean(clz);
+                Object obj = SpringUtil.getBean(clz);
                 //获得对应的方法
                 Method m = obj.getClass().getDeclaredMethod(Constants.FUNCTION_METHOD_NAME, Object[].class);
 
-                for(int i=0 ; i<variableCellModelList.size() ;i++){
-                    strings[i] = getValue(variableCellModelList.get(i),originJSONObject,lineInJSONObject);
+                for (int i = 0; i < variableCellModelList.size(); i++) {
+                    strings[i] = getValue(variableCellModelList.get(i), originJSONObject, lineInJSONObject);
                 }
                 lineResult = m.invoke(obj, (Object) strings);
                 lineModle.setLineResult(lineResult);
-            } catch (InvocationTargetException e){
+            } catch (InvocationTargetException e) {
                 String errorMsg = ((InvocationTargetException) e).getTargetException().getMessage();
                 StringBuffer sb = new StringBuffer();
-                for(Object s : strings){
-                    sb.append(s==null?null:s.toString());
+                for (Object s : strings) {
+                    sb.append(s == null ? null : s.toString());
                     sb.append(",");
                 }
-                errorMsg = String.format("单行计算错误，规则code为：%s，行code为：%s，错误信息：%s，入参为：%s ", lineModle.getRuleCode(),lineModle.getLineCode(), errorMsg,sb);
+                errorMsg = String.format("单行计算错误，规则code为：%s，行code为：%s，错误信息：%s，入参为：%s ", lineModle.getRuleCode(), lineModle.getLineCode(), errorMsg, sb);
                 log.error(errorMsg);
                 throw new RuleRuntimeException(errorMsg);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 log.error("获取方法和类出错！" + e.getMessage());
                 throw new RuleRuntimeException("获取方法和类出错！");
             }
@@ -303,37 +297,26 @@ public class JSEngineCalculation {
 
     }
 
-
-    public static Object getValue(TCaCellVariable variableCellModel, JSONObject originJSONObject, JSONObject lineInJSONObject){
+    public static Object getValue(TCaCellVariable variableCellModel, JSONObject originJSONObject, JSONObject lineInJSONObject) {
 
         Object value = null;
-        if(StringUtils.isNotBlank(variableCellModel.getCellVariableValue())
+        if (StringUtils.isNotBlank(variableCellModel.getCellVariableValue())
                 || variableCellModel.getCellVariableValue().equals(variableCellModel.getCellVariableKey())
-                || ("\""+variableCellModel.getCellVariableValue()+"\"").equals(variableCellModel.getCellVariableKey())){
+                || ("\"" + variableCellModel.getCellVariableValue() + "\"").equals(variableCellModel.getCellVariableKey())) {
             //如果当前对象有value,则取当前value
             value = variableCellModel.getCellVariableValue();
-        }else if(lineInJSONObject.containsKey(variableCellModel.getCellVariableKey())){
+        } else if (lineInJSONObject.containsKey(variableCellModel.getCellVariableKey())) {
             //如果当前key在lineInJSONObject中
             value = lineInJSONObject.get(variableCellModel.getCellVariableKey());
 
-        }else if(originJSONObject.containsKey(variableCellModel.getCellVariableKey())){
+        } else if (originJSONObject.containsKey(variableCellModel.getCellVariableKey())) {
             //如果当前key在originJSONObject中
             value = originJSONObject.get(variableCellModel.getCellVariableKey());
-        }else {
-            throw new RuntimeException(String.format("参数 %s 没有值，请确认",variableCellModel.getCellVariableKey()));
+        } else {
+            throw new RuntimeException(String.format("参数 %s 没有值，请确认", variableCellModel.getCellVariableKey()));
         }
 
         return value;
     }
-
-
-
-
-
-
-
-
-
-
 
 }

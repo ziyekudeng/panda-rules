@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 
 /**
  * 开方计算函数
- *
+ * <p>
  * 要求：
- *  1、所有的参数都是数值型
- *  2、objs的长度必须只有一个
- *
+ * 1、所有的参数都是数值型
+ * 2、objs的长度必须只有一个
+ * <p>
  * 返回值类型支持：
- *  1、integer
- *  2、double
+ * 1、integer
+ * 2、double
  */
 @Component
 public class SqrtFunction extends BaseFunction {
@@ -26,23 +26,23 @@ public class SqrtFunction extends BaseFunction {
     public Object invoke(Object... objs) {
 
         //1、校验传入的参数个数是否有问题
-        checkArgsCount(1,SQRT_ERROR_MESSAGE,objs);
+        checkArgsCount(1, SQRT_ERROR_MESSAGE, objs);
 
         //2、拼接表达式
         StringBuffer expression = new StringBuffer();
         expression.append("Math.sqrt(");
-        if(!NumberUtils.isCalculationNumber(objs[0]) || !NumberUtils.NonNegative(new BigDecimal(objs[0].toString()))){
-            throw new RuleRuntimeException(SQRT_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        if (!NumberUtils.isCalculationNumber(objs[0]) || !NumberUtils.NonNegative(new BigDecimal(objs[0].toString()))) {
+            throw new RuleRuntimeException(SQRT_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
         expression.append(objs[0].toString()).append(")");
 
         //3、计算结果
-        return calculate(expression.toString(),SQRT_ERROR_MESSAGE);
+        return calculate(expression.toString(), SQRT_ERROR_MESSAGE);
     }
-
 
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {

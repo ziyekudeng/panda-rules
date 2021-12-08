@@ -1,14 +1,12 @@
 package org.wangfeng.panda.app.model.enums;
 
-
 /**
  * 状态枚举
  */
 public enum StatusEnum {
 
-    QI_YONG((short)1,"启用"),
-    TING_YONG((short)0,"停用");
-
+    QI_YONG((short) 1, "启用"),
+    TING_YONG((short) 0, "停用");
 
     private Short code;
     private String name;
@@ -26,12 +24,12 @@ public enum StatusEnum {
         this.name = name;
     }
 
-    public static StatusEnum getByCode(Short code){
-        if(code == null){
+    public static StatusEnum getByCode(Short code) {
+        if (code == null) {
             return null;
         }
-        for(StatusEnum i: StatusEnum.values()){
-            if(i.getCode() == code.intValue()){
+        for (StatusEnum i : StatusEnum.values()) {
+            if (i.getCode() == code.intValue()) {
                 return i;
             }
         }

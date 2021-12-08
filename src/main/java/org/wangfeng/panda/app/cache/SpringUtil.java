@@ -10,16 +10,15 @@ public class SpringUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
     public static String env;
 
-    public static String getEnv(){
+    public static String getEnv() {
         return env;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext arg0)
-        throws BeansException {
+            throws BeansException {
         SpringUtil.applicationContext = arg0;
     }
-
 
 //    public static Object getBean(String name){
 //        return applicationContext.getBean(name);
@@ -35,7 +34,6 @@ public class SpringUtil implements ApplicationContextAware {
 //        }
 //        return null;
 //    }
-
 
     /**
      *

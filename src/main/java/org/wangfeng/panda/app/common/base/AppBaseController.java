@@ -29,7 +29,7 @@ public class AppBaseController {
         }
         try {
             return Integer.parseInt(pageIndex);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return PAGE_INDEX_DEFAULT;
         }
     }
@@ -48,9 +48,9 @@ public class AppBaseController {
         if (StringUtils.isEmpty(pageSize)) {
             return PAGE_SIZE_DEFAULT;
         }
-        try{
+        try {
             return Integer.parseInt(pageSize);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return PAGE_SIZE_DEFAULT;
         }
 
@@ -58,9 +58,10 @@ public class AppBaseController {
 
     /**
      * 把校验的错误结果以异常抛出
+     *
      * @param bindingResult
      */
-    protected void checkBindingResult(BindingResult bindingResult){
+    protected void checkBindingResult(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String message = bindingResult.getFieldError().getDefaultMessage();
             throw new RuleRuntimeException(message);
@@ -69,162 +70,169 @@ public class AppBaseController {
 
     /**
      * 操作成功，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
+     *
      * @return 成功
      */
-    public JSONObject ok(){
+    public JSONObject ok() {
         return ok("操作成功");
     }
 
     /**
      * 操作成功，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
+     *
      * @param msg 反馈的消息
      * @return 成功附带信息
      */
-    public JSONObject ok(String msg){
-        return ok(msg,null);
+    public JSONObject ok(String msg) {
+        return ok(msg, null);
     }
 
     /**
      * 操作成功，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param data 返回数据
      * @return 成功附带信息与数据, 如数据为null则不返回数据字段
      */
-    public JSONObject ok(String msg,Object data){
-        return rs(msg,1,data);
+    public JSONObject ok(String msg, Object data) {
+        return rs(msg, 1, data);
     }
 
     /**
      * 操作成功，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param code 状态码
-     * @param data  反馈所带的内容
+     * @param data 反馈所带的内容
      * @return 成功附带信息
      */
-    public JSONObject ok(String msg,Integer code,Object data){
-        return rs(msg,code,data);
+    public JSONObject ok(String msg, Integer code, Object data) {
+        return rs(msg, code, data);
     }
-
 
     /**
      * 操作成功，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param code 状态码
-     * @param data  反馈所带的内容
+     * @param data 反馈所带的内容
      * @return 成功附带信息
      */
-    public JSONObject ok(String msg,String code,Object data){
-        return rs(msg,code,data);
+    public JSONObject ok(String msg, String code, Object data) {
+        return rs(msg, code, data);
     }
 
     /**
      * 操作失败，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
+     *
      * @return 失败
      */
-    public JSONObject fail(){
+    public JSONObject fail() {
         return fail("操作失败");
     }
 
     /**
      * 操作失败，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
+     *
      * @param msg 反馈的消息
      * @return 失败附带信息
      */
-    public JSONObject fail(String msg){
-        return fail(msg,null);
+    public JSONObject fail(String msg) {
+        return fail(msg, null);
     }
 
     /**
      * 操作失败，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param data 返回数据
      * @return 失败附带信息, 如数据为null则不返回数据字段
      */
-    public JSONObject fail(String msg,Object data){
-        return rs(msg,-1,data);
+    public JSONObject fail(String msg, Object data) {
+        return rs(msg, -1, data);
     }
 
     /**
      * 操作失败，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param code 状态码
      * @param data 返回数据
      * @return 失败附带信息, 如数据为null则不返回数据字段
      */
-    public JSONObject fail(String msg,Integer code,Object data){
-        return rs(msg,code,data);
+    public JSONObject fail(String msg, Integer code, Object data) {
+        return rs(msg, code, data);
     }
-
 
     /**
      * 操作失败，返回数据中含有三个key；code：状态：见枚举类；message：反馈的消息;data:表示需要传达的参数，默认data为null
-     * @param msg 反馈的消息
+     *
+     * @param msg  反馈的消息
      * @param code 状态码
      * @param data 返回数据
      * @return 失败附带信息, 如数据为null则不返回数据字段
      */
-    public JSONObject fail(String msg,String code,Object data){
-        return rs(msg,code,data);
+    public JSONObject fail(String msg, String code, Object data) {
+        return rs(msg, code, data);
     }
 
     /**
      * 拼接成统一的json
+     *
      * @param msg
      * @param code
      * @param data
      * @return
      */
-    private JSONObject rs(String msg,int code,Object data){
+    private JSONObject rs(String msg, int code, Object data) {
         JSONObject rs = new JSONObject();
         rs.put("code", code);
         rs.put("message", msg);
-        if(data != null){
-            try{
+        if (data != null) {
+            try {
                 Object obj = JSONObject.toJSON(data);
                 rs.put("data", obj);
-            }catch(Exception e){
+            } catch (Exception e) {
                 rs.put("data", data);
             }
-        }else{
+        } else {
             rs.put("data", "");
         }
         return rs;
     }
-
-
-
 
     /**
      * 拼接成统一的json（此处的code为String类型，防止有些系统用gson出问题）
+     *
      * @param msg
      * @param code
      * @param data
      * @return
      */
-    private JSONObject rs(String msg,String code,Object data){
+    private JSONObject rs(String msg, String code, Object data) {
         JSONObject rs = new JSONObject();
         rs.put("code", code);
         rs.put("message", msg);
-        if(data != null){
-            try{
+        if (data != null) {
+            try {
                 Object obj = JSONObject.toJSON(data);
                 rs.put("data", obj);
-            }catch(Exception e){
+            } catch (Exception e) {
                 rs.put("data", data);
             }
-        }else{
+        } else {
             rs.put("data", "");
         }
         return rs;
     }
 
-
     /**
      * 导出的基本操作
+     *
      * @param fileName
      * @param wb
      */
-    protected void exportBaseOperation(String fileName , XSSFWorkbook wb){
+    protected void exportBaseOperation(String fileName, XSSFWorkbook wb) {
         //导出到页面
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         try {

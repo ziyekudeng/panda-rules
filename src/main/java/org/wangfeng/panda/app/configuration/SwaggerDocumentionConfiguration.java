@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Configuration
 public class SwaggerDocumentionConfiguration {
 
-
     @Value("${swagger.show}")
     private Boolean swaggerShow;
 

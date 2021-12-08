@@ -21,10 +21,8 @@ import org.wangfeng.panda.app.validation.group.UpdateOperation;
 @Api(value = "panda-rule-list", description = "规则集API")
 public class RuleListController extends AppBaseController {
 
-
     @Autowired
     private RuleListService ruleListService;
-
 
     /**
      * 列表页查询
@@ -41,11 +39,9 @@ public class RuleListController extends AppBaseController {
 
     })
     public ResponseEntity getList(@ApiParam(value = "查询条件，是对象", required = true) @RequestBody @Validated TCaRuleListVO tCaRuleListVO) {
-        Paginate paginate = ruleListService.queryPagenate(tCaRuleListVO,getPageIndex(),getPageSize());
-        return new ResponseEntity(ok("获取成功",paginate), HttpStatus.OK);
+        Paginate paginate = ruleListService.queryPagenate(tCaRuleListVO, getPageIndex(), getPageSize());
+        return new ResponseEntity(ok("获取成功", paginate), HttpStatus.OK);
     }
-
-
 
     /**
      * 通过ID单个查询
@@ -63,14 +59,11 @@ public class RuleListController extends AppBaseController {
     })
     public ResponseEntity getById(@ApiParam(value = "规则集的主键ID", required = true) @RequestParam Long id) {
         TCaRuleListVO tCaRuleListVO = ruleListService.getById(id);
-        if(tCaRuleListVO==null){
-            return new ResponseEntity(fail("没有查到对应数据！"),HttpStatus.EXPECTATION_FAILED);
+        if (tCaRuleListVO == null) {
+            return new ResponseEntity(fail("没有查到对应数据！"), HttpStatus.EXPECTATION_FAILED);
         }
-        return new ResponseEntity(ok("获取成功",tCaRuleListVO), HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", tCaRuleListVO), HttpStatus.OK);
     }
-
-
-
 
     /**
      * 新增
@@ -94,7 +87,6 @@ public class RuleListController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
     /**
      * 编辑
      *
@@ -116,7 +108,6 @@ public class RuleListController extends AppBaseController {
         ruleListService.updateByPrimaryKey(tCaRuleListVO);
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
-
 
     /**
      * 删除规则集

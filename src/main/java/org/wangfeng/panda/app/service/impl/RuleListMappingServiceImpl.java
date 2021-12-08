@@ -23,6 +23,7 @@ public class RuleListMappingServiceImpl extends AppBaseService implements RuleLi
 
     /**
      * 根据决策集合ID批量删除对应的关联关系
+     *
      * @param ruleListId
      */
     @Override
@@ -43,17 +44,17 @@ public class RuleListMappingServiceImpl extends AppBaseService implements RuleLi
         tCaRuleListMappingMapper.deleteByRuleListCode(tCaRuleListMapping);
     }
 
-
     /**
      * 从TCaSingleRuleVO中获取对应的mapping，并插入
+     *
      * @param tCaSingleRuleVOList
      * @param ruleListCode
      */
     @Override
-    public void insertByTCaSingleRuleVOList(List<TCaSingleRuleVO> tCaSingleRuleVOList,String ruleListCode) {
+    public void insertByTCaSingleRuleVOList(List<TCaSingleRuleVO> tCaSingleRuleVOList, String ruleListCode) {
         List<TCaRuleListMapping> ruleListMappingList = new ArrayList<>();
-        if(tCaSingleRuleVOList!=null && tCaSingleRuleVOList.size()>0){
-            tCaSingleRuleVOList.stream().forEach(t ->{
+        if (tCaSingleRuleVOList != null && tCaSingleRuleVOList.size() > 0) {
+            tCaSingleRuleVOList.stream().forEach(t -> {
                 TCaRuleListMapping tCaRuleListMapping = new TCaRuleListMapping();
                 tCaRuleListMapping.setRuleCode(t.getRuleCode());
                 tCaRuleListMapping.setRuleListCode(ruleListCode);
@@ -69,6 +70,7 @@ public class RuleListMappingServiceImpl extends AppBaseService implements RuleLi
 
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleListMappingList
      * @param info
      */
@@ -76,7 +78,7 @@ public class RuleListMappingServiceImpl extends AppBaseService implements RuleLi
     public void batchInsertNotExist(List<TCaRuleListMapping> tCaRuleListMappingList, StringBuffer info) {
 
         //1、判空
-        if(tCaRuleListMappingList==null){
+        if (tCaRuleListMappingList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -89,16 +91,14 @@ public class RuleListMappingServiceImpl extends AppBaseService implements RuleLi
 
                 int count = tCaRuleListMappingMapper.insertNotExist(rl);
 
-                if(count<1){
-                    log.error("rule_code为["+rl.getRuleCode()+"]的规则集合mapping重复了，请确认！");
+                if (count < 1) {
+                    log.error("rule_code为[" + rl.getRuleCode() + "]的规则集合mapping重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(rl.getRuleListCode()).append(",");
             }
         });
-
-
 
     }
 }

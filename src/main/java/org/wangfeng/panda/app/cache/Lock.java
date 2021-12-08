@@ -4,13 +4,11 @@ import java.io.Closeable;
 
 /**
  * 使用redis实现的分布式锁
- *
- *
  */
 
 public class Lock implements Closeable {
 
-//    private  static  R2mClusterClient redisClient =SpringUtil.getBean(R2mClusterClient.class);;
+    //    private  static  R2mClusterClient redisClient =SpringUtil.getBean(R2mClusterClient.class);;
 //
 //    private static final Logger LOGGER = LoggerFactory.getLogger(Lock.class);
 //
@@ -127,6 +125,5 @@ public class Lock implements Closeable {
 //            LOGGER.error("release lock error", e);
 //        }
     }
-
 
 }

@@ -60,19 +60,12 @@ public interface TCaRuleTreeMapper extends MyMapper<TCaRuleTree> {
             + "</script>")
     public List<TCaRuleTreeVO> getList(TCaRuleTreeVO tCaRuleTreeVO);
 
-
-
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM  t_ca_rule_tree "
             + "WHERE id = #{id} AND delete_flag = 0 "
             + "</script>")
     public TCaRuleTreeVO getById(Long id);
-
-
-
 
     /**
      * 保存一个实体，null的属性也会保存，不会使用数据库默认值
@@ -89,10 +82,6 @@ public interface TCaRuleTreeMapper extends MyMapper<TCaRuleTree> {
     )
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(TCaRuleTree tCaRuleTree);
-
-
-
-
 
     @Update("<script>"
             + "update t_ca_rule_tree "
@@ -129,22 +118,19 @@ public interface TCaRuleTreeMapper extends MyMapper<TCaRuleTree> {
     @Override
     public int updateByPrimaryKey(TCaRuleTree tCaRuleTree);
 
-
     @Select("select * from t_ca_rule_tree where delete_flag = 0")
     public List<TCaRuleTree> queryAll(TCaRuleTree tCaRuleTree);
-
 
     @Select(" <script> " +
             " select *" +
             " from t_ca_rule_tree  " +
             " where rule_tree_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and delete_flag = 0 " +
             "</script>")
     public List<TCaRuleTree> queryListByTreeCodeList(List<String> RuleTreeCodeList);
-
 
     @Insert("<script>" +
             "insert into t_ca_rule_tree " +

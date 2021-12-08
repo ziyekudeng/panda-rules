@@ -1,9 +1,9 @@
 package org.wangfeng.panda.app.dao.maper;
 
+import org.junit.Test;
 import org.wangfeng.panda.app.dao.domain.TCaDecisionVariable;
 import org.wangfeng.panda.app.model.vo.TCaDecisionVariableVO;
 import org.wangfeng.panda.support.BaseDecisionVariableUT;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,6 @@ public class TcaDecisionVariableMapperTest extends BaseDecisionVariableUT {
         Integer count = tCaDecisionVariableMapper.insertList(tCaDecisionVariableList);
         System.out.println(String.format("一共插入了%d条数据！", count));
     }
-
 
     /**
      * dao层的更新

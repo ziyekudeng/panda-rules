@@ -4,7 +4,4 @@ import org.wangfeng.panda.app.dao.domain.TCaCellVariable;
 
 public class TCaCellVariableVO extends TCaCellVariable {
 
-
-
-
 }

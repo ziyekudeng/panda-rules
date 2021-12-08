@@ -38,7 +38,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .setCacheControl(cc);
     }
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 拦截器的配置 拦截所有业务操作 如为查询操作可以
@@ -46,14 +45,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(this.logIntercept()).addPathPatterns("/m/**");
     }
 
-
     @Bean
     public LogInterceptor logIntercept() {
         return new LogInterceptor();
     }
 
     @Bean
-    public TraceInterceptor traceInterceptor(){
+    public TraceInterceptor traceInterceptor() {
         return new TraceInterceptor();
     }
 
@@ -73,7 +71,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public HttpMessageConverters fastJsonHttpMessageConverters(){
+    public HttpMessageConverters fastJsonHttpMessageConverters() {
         //1.需要定义一个convert转换消息的对象;
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         //2:添加fastJson的配置信息;
@@ -91,6 +89,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**
      * 文件上传配置
+     *
      * @return
      */
     @Bean
@@ -102,9 +101,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         factory.setMaxRequestSize("102400KB");
         return factory.createMultipartConfig();
     }
-
-
-
 
     @Bean(name = "threadPoolTaskExecutor")
     public Executor threadPoolTaskExecutor() {

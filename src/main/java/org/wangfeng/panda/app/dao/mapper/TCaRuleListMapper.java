@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface TCaRuleListMapper extends MyMapper<TCaRuleList> {
 
-
     @Select("<script>"
             + "SELECT list.*,business.business_name as businessName "
             + "FROM t_ca_rule_list list "
@@ -57,7 +56,6 @@ public interface TCaRuleListMapper extends MyMapper<TCaRuleList> {
             + "</script>")
     public List<TCaRuleListVO> getList(TCaRuleListVO tCaRuleListVO);
 
-
     /**
      * 保存一个实体，null的属性也会保存，不会使用数据库默认值
      *
@@ -74,7 +72,6 @@ public interface TCaRuleListMapper extends MyMapper<TCaRuleList> {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(TCaRuleList tCaRuleList);
 
-
     @Select("<script>"
             + "SELECT * "
             + "FROM  t_ca_rule_list "
@@ -82,15 +79,12 @@ public interface TCaRuleListMapper extends MyMapper<TCaRuleList> {
             + "</script>")
     public TCaRuleListVO getById(Long id);
 
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM  t_ca_rule_list "
             + "WHERE rule_list_code = #{ruleListCode} AND delete_flag = 0 "
             + "</script>")
     public TCaRuleListVO getByCode(String ruleListCode);
-
 
     @Update("<script>"
             + "update t_ca_rule_list "
@@ -124,24 +118,19 @@ public interface TCaRuleListMapper extends MyMapper<TCaRuleList> {
     @Override
     public int updateByPrimaryKey(TCaRuleList tCaRuleList);
 
-
     @Select("select * from t_ca_rule_list where delete_flag = 0")
     public List<TCaRuleList> queryAll(TCaRuleList tCaRuleList);
-
-
 
     @Select(" <script> " +
             " select list.*" +
             " from t_ca_rule_list list " +
             " where list.rule_list_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and list.delete_flag = 0 " +
             "</script>")
     public List<TCaRuleList> queryListByCodeList(List<String> RuleListCodeList);
-
-
 
     @Insert("<script>" +
             "insert into t_ca_rule_list " +

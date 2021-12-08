@@ -25,7 +25,7 @@ public class PandaAppApplication {
         String[] activeProfiles = ctx.getEnvironment().getActiveProfiles();
         for (String profile : activeProfiles) {
             SpringUtil.env = profile;
-            log.info("当前环境为:"+profile);
+            log.info("当前环境为:" + profile);
         }
     }
 

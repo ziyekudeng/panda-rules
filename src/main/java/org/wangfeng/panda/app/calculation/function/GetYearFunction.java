@@ -8,12 +8,12 @@ import java.util.Date;
 
 /**
  * 返回日期中的年，当日期未精确到年时，函数返回0
- *
+ * <p>
  * 要求：
- *  1、objs的长度必须有1个，必须是日期格式
- *
+ * 1、objs的长度必须有1个，必须是日期格式
+ * <p>
  * 返回值类型支持：
- *  1、integer
+ * 1、integer
  */
 @Component
 public class GetYearFunction extends BaseFunction {
@@ -24,27 +24,27 @@ public class GetYearFunction extends BaseFunction {
     public Object invoke(Object... objs) {
 
         //1、校验传入的参数个数是否有问题
-        checkArgsCount(1,GET_YEAR_ERROR_MESSAGE,objs);
+        checkArgsCount(1, GET_YEAR_ERROR_MESSAGE, objs);
 
         //2、校验格式是否正确
-        if(objs[0] == null){
-            throw new RuleRuntimeException(GET_YEAR_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        if (objs[0] == null) {
+            throw new RuleRuntimeException(GET_YEAR_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
 
         //3 计算结果
         Date date;
-        try{
+        try {
             date = new Date(objs[0].toString());
-        }catch (Exception e){
-            throw new RuleRuntimeException(GET_YEAR_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        } catch (Exception e) {
+            throw new RuleRuntimeException(GET_YEAR_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
 
         return DateUtils.getYear(date);
     }
 
-
     /**
      * 测试方法
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -53,6 +53,5 @@ public class GetYearFunction extends BaseFunction {
         GetYearFunction getYearFunction = new GetYearFunction();
         System.out.println(getYearFunction.invoke(o1));
     }
-
 
 }

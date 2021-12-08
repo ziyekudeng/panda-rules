@@ -21,7 +21,6 @@ import java.util.List;
 @Slf4j
 public class RuleLineServiceImpl extends AppBaseService implements RuleLineService {
 
-
     @Autowired
     private CacheClient cacheClient;
 
@@ -33,6 +32,7 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
 
     /**
      * 通过规则CODE查询当前规则对应的所有行
+     *
      * @param ruleCode
      * @return
      */
@@ -41,13 +41,13 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
         //1、查询redis内是否有对应的结果
         List<TCaRuleLineVO> tCaRuleLineVOList = null;
 //        (List<TCaRuleLineVO>)cacheClient.getObject("all_"+RedisInputEnum.RULE_LINE+"_by_rule_code_"+ruleCode);
-        if(tCaRuleLineVOList!=null){
+        if (tCaRuleLineVOList != null) {
             return tCaRuleLineVOList;
         }
 
         //2、如果redis内没有，则查询数据库
         tCaRuleLineVOList = tCaRuleLineMapper.queryLineListByRuleCode(ruleCode);
-        if(tCaRuleLineVOList == null){
+        if (tCaRuleLineVOList == null) {
             throw new RuleRuntimeException("该条规则没有对应的行！");
         }
 
@@ -64,22 +64,22 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
         return tCaRuleLineVOList;
     }
 
-
     /**
      * 插入单条行
+     *
      * @param tCaRuleLineVO
      * @param type
      * @param sort
      */
     @Override
-    public void insertLine(TCaRuleLineVO tCaRuleLineVO, TCaSingleRuleVO tCaSingleRuleVO , String type, Integer sort) {
+    public void insertLine(TCaRuleLineVO tCaRuleLineVO, TCaSingleRuleVO tCaSingleRuleVO, String type, Integer sort) {
 
         //插入行
-        if(tCaRuleLineVO.getSort()==null){
+        if (tCaRuleLineVO.getSort() == null) {
             tCaRuleLineVO.setSort(sort);
         }
         tCaRuleLineVO.setBusinessCode(tCaSingleRuleVO.getBusinessCode());
-        tCaRuleLineVO.setLineCode("RULE_LINE_"+tCaSingleRuleVO.getRuleCode()+"_"+type+"_"+sort);
+        tCaRuleLineVO.setLineCode("RULE_LINE_" + tCaSingleRuleVO.getRuleCode() + "_" + type + "_" + sort);
         tCaRuleLineVO.setRuleLineModule(type);
         tCaRuleLineVO.setStatus(Constants.SHORT_ONE);
         tCaRuleLineVO.setRuleCode(tCaSingleRuleVO.getRuleCode());
@@ -90,17 +90,16 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
         //循环插入格子数据
         List<TCaCellVariable> tCaCellVariableList = tCaRuleLineVO.getTCaCellVariableList();
         Integer cellSort = 0;
-        for(TCaCellVariable cell : tCaCellVariableList){
+        for (TCaCellVariable cell : tCaCellVariableList) {
             cellSort += 1;
-            cellVariableService.insertCellVariable(cell,tCaRuleLineVO,cellSort);
+            cellVariableService.insertCellVariable(cell, tCaRuleLineVO, cellSort);
         }
-
 
     }
 
-
     /**
      * 更新单条行
+     *
      * @param tCaRuleLineVO
      * @param tCaSingleRuleVO
      * @param type
@@ -113,19 +112,19 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
 
         //1、先查询是否存在
         TCaRuleLine queryRuleLine = new TCaRuleLine();
-        queryRuleLine.setLineCode("RULE_LINE_"+tCaSingleRuleVO.getRuleCode()+"_"+type+"_"+sort);
+        queryRuleLine.setLineCode("RULE_LINE_" + tCaSingleRuleVO.getRuleCode() + "_" + type + "_" + sort);
         TCaRuleLine tCaRuleLine = tCaRuleLineMapper.selectOne(queryRuleLine);
 
         //2、如果存在则更新，如果不存在则新增
-        if(tCaRuleLine!=null){
+        if (tCaRuleLine != null) {
 
-            if(tCaRuleLineVO.getSort()==null){
+            if (tCaRuleLineVO.getSort() == null) {
                 tCaRuleLineVO.setSort(sort);
             }
 
             tCaRuleLineVO.setSort(sort);
             tCaRuleLineVO.setBusinessCode(tCaSingleRuleVO.getBusinessCode());
-            tCaRuleLineVO.setLineCode("RULE_LINE_"+tCaSingleRuleVO.getRuleCode()+"_"+type+"_"+sort);
+            tCaRuleLineVO.setLineCode("RULE_LINE_" + tCaSingleRuleVO.getRuleCode() + "_" + type + "_" + sort);
             tCaRuleLineVO.setRuleLineModule(type);
             tCaRuleLineVO.setRuleCode(tCaSingleRuleVO.getRuleCode());
             tCaRuleLineVO.setStatus(Constants.SHORT_ONE);
@@ -133,29 +132,26 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
             initSaveWord(tCaRuleLineVO);
             tCaRuleLineMapper.updateByPrimaryKey(tCaRuleLineVO);
 
-
             //把所有cell置为无效
             cellVariableService.unUseCell(tCaRuleLine.getLineCode());
 
             //循环更新格子数据
             List<TCaCellVariable> tCaCellVariableList = tCaRuleLineVO.getTCaCellVariableList();
             Integer cellSort = 0;
-            for(TCaCellVariable cell : tCaCellVariableList){
+            for (TCaCellVariable cell : tCaCellVariableList) {
                 cellSort += 1;
-                cellVariableService.updateCellVariable(cell,tCaRuleLineVO,cellSort);
+                cellVariableService.updateCellVariable(cell, tCaRuleLineVO, cellSort);
             }
 
-
-        }else{
+        } else {
             insertLine(tCaRuleLineVO, tCaSingleRuleVO, type, sort);
         }
 
     }
 
-
-
     /**
      * 删除行
+     *
      * @param ruleCode
      */
     @Override
@@ -166,15 +162,14 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
         List<TCaRuleLineVO> tCaRuleLineVOList = tCaRuleLineMapper.queryLineListByRuleCode(ruleCode);
         tCaRuleLineMapper.deleteByRuleCode(ruleCode);
 
-
         tCaRuleLineVOList.stream().forEach(line -> {
             cellVariableService.deleteCell(line.getLineCode());
         });
     }
 
-
     /**
      * 停用行
+     *
      * @param ruleCode
      */
     @Override
@@ -184,22 +179,21 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
         List<TCaRuleLineVO> tCaRuleLineVOList = tCaRuleLineMapper.queryLineListByRuleCode(ruleCode);
         tCaRuleLineMapper.unUseByRuleCode(ruleCode);
 
-
         tCaRuleLineVOList.stream().forEach(line -> {
             cellVariableService.unUseCell(line.getLineCode());
         });
     }
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleLineList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaRuleLine> tCaRuleLineList, StringBuffer info) {
         //1、判空
-        if(tCaRuleLineList==null){
+        if (tCaRuleLineList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -210,17 +204,15 @@ public class RuleLineServiceImpl extends AppBaseService implements RuleLineServi
             try {
                 initSaveWord(rl);
                 int count = tCaRuleLineMapper.insertNotExist(rl);
-                if(count<1){
-                    log.error("code为["+rl.getLineCode()+"]的行重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + rl.getLineCode() + "]的行重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(rl.getLineCode()).append(",");
             }
         });
 
-
     }
-
 
 }

@@ -1,6 +1,5 @@
 package org.wangfeng.panda.app.model.enums;
 
-
 import com.alibaba.fastjson.JSONObject;
 import org.wangfeng.panda.app.calculation.FunctionEnum;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public enum OutPutTypeEnum {
     //对于字符串的函数，因为目前来说为了区分数字1和字符串1，我们进行了字符串加上双引号的特殊处理，
     //但是这样对于部分函数会有问题，所以对于字符串操作的函数需要进行先出去双引号计算的逻辑
-    STRING((short)1,"字符串",new ArrayList<FunctionEnum>(){{
+    STRING((short) 1, "字符串", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.CONCAT_FUNCTION);
         add(FunctionEnum.TRIM_FUNCTION);
         add(FunctionEnum.DATE_TO_STRING_FUNCTION);
@@ -28,7 +27,7 @@ public enum OutPutTypeEnum {
         add(FunctionEnum.TO_LOWER_CASE_FUNCTION);
     }}),
 
-    INTEGER((short)2,"整数",new ArrayList<FunctionEnum>(){{
+    INTEGER((short) 2, "整数", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.ADD);
         add(FunctionEnum.SUBSTRACT);
         add(FunctionEnum.MULTIPLY);
@@ -53,7 +52,7 @@ public enum OutPutTypeEnum {
         add(FunctionEnum.STR_LENGTH_FUNCTION);
     }}),
 
-    BOOLEAN((short)3,"布尔",new ArrayList<FunctionEnum>(){{
+    BOOLEAN((short) 3, "布尔", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.GREATER_THAN);
         add(FunctionEnum.GREATER_THAN_EQUAL);
         add(FunctionEnum.LESS_THAN);
@@ -65,7 +64,7 @@ public enum OutPutTypeEnum {
         add(FunctionEnum.IS_IN_ARRAY_FUNCTION);
     }}),
 
-    DOUBLE((short)4,"浮点数",new ArrayList<FunctionEnum>(){{
+    DOUBLE((short) 4, "浮点数", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.ADD);
         add(FunctionEnum.SUBSTRACT);
         add(FunctionEnum.MULTIPLY);
@@ -80,21 +79,20 @@ public enum OutPutTypeEnum {
         add(FunctionEnum.GET_ELEMENT_FUNCTION);
     }}),
 
-    DATE((short)5,"日期",new ArrayList<FunctionEnum>(){{
+    DATE((short) 5, "日期", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.GET_ELEMENT_FUNCTION);
         add(FunctionEnum.STRING_TO_DATE_FUNCTION);
         add(FunctionEnum.ADD_DAYS_FUNCTION);
         add(FunctionEnum.ADD_TIME_FUNCTION);
     }}),
 
-    TIME((short)6,"时间",new ArrayList<FunctionEnum>(){{
+    TIME((short) 6, "时间", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.GET_ELEMENT_FUNCTION);
     }}),
 
-    LIST((short)7,"数组",new ArrayList<FunctionEnum>(){{
+    LIST((short) 7, "数组", new ArrayList<FunctionEnum>() {{
         add(FunctionEnum.SPLIT_STR_FUNCTION);
-    }})
-    ;
+    }});
 
     private Short code;
     private String name;
@@ -102,7 +100,6 @@ public enum OutPutTypeEnum {
      * 可以接受的运算符
      */
     private List<FunctionEnum> functionList;
-
 
     public Short getCode() {
         return code;
@@ -116,7 +113,6 @@ public enum OutPutTypeEnum {
         return functionList;
     }
 
-
     OutPutTypeEnum(Short code, String name, List<FunctionEnum> functionList) {
         this.code = code;
         this.name = name;
@@ -125,48 +121,44 @@ public enum OutPutTypeEnum {
 
     /**
      * 通过Code查询
+     *
      * @param code
      * @return
      */
-    public static OutPutTypeEnum getByCode(Short code){
-        if(code == null){
+    public static OutPutTypeEnum getByCode(Short code) {
+        if (code == null) {
             return null;
         }
-        for(OutPutTypeEnum i: OutPutTypeEnum.values()){
-            if(i.getCode() == code.intValue()){
+        for (OutPutTypeEnum i : OutPutTypeEnum.values()) {
+            if (i.getCode() == code.intValue()) {
                 return i;
             }
         }
         return null;
     }
 
-
     /**
      * 查询所有的规则输出类型
+     *
      * @return
      */
-    public static List<JSONObject> queryAllOutPutType(){
+    public static List<JSONObject> queryAllOutPutType() {
         List<JSONObject> outPutTypeList = new ArrayList();
-        for(OutPutTypeEnum i: OutPutTypeEnum.values()){
+        for (OutPutTypeEnum i : OutPutTypeEnum.values()) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("code",i.getCode());
-            jsonObject.put("name",i.getName());
+            jsonObject.put("code", i.getCode());
+            jsonObject.put("name", i.getName());
 
             List<JSONObject> functionEnumList = new ArrayList<>();
             i.getFunctionList().stream().forEach(functionEnum -> {
-                JSONObject json =  FunctionEnum.functionEnumToJSON(functionEnum);
+                JSONObject json = FunctionEnum.functionEnumToJSON(functionEnum);
                 functionEnumList.add(json);
             });
 
-            jsonObject.put("functionList",functionEnumList);
+            jsonObject.put("functionList", functionEnumList);
             outPutTypeList.add(jsonObject);
         }
         return outPutTypeList;
     }
-
-
-
-
-
 
 }

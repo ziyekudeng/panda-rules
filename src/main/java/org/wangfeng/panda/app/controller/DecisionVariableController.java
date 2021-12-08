@@ -1,10 +1,5 @@
 /**
  *
- *
- *
- *
- *
- *
  */
 package org.wangfeng.panda.app.controller;
 
@@ -28,7 +23,6 @@ import org.wangfeng.panda.app.validation.group.UpdateOperation;
 
 import java.util.List;
 
-
 /**
  * <p>
  * Title: [子系统名称]_[模块名]
@@ -48,10 +42,8 @@ import java.util.List;
 @Api(value = "panda-decision-variable", description = "决策变量API")
 public class DecisionVariableController extends AppBaseController {
 
-
     @Autowired
     private DecisionVariableService decisionVariableService;
-
 
     /**
      * 列表页查询
@@ -71,9 +63,8 @@ public class DecisionVariableController extends AppBaseController {
                                   BindingResult bindingResult) {
         checkBindingResult(bindingResult);
         Paginate paginate = decisionVariableService.queryPagenate(tCaDecisionVariableVO, getPageIndex(), getPageSize());
-        return new ResponseEntity(ok("获取成功",paginate),HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", paginate), HttpStatus.OK);
     }
-
 
     /**
      * 通过ID单个查询
@@ -91,12 +82,11 @@ public class DecisionVariableController extends AppBaseController {
     })
     public ResponseEntity getById(@ApiParam(value = "决策变量的主键ID", required = true) @RequestParam Long id) {
         TCaDecisionVariableVO tCaDecisionVariableVO = decisionVariableService.getById(id);
-        if(tCaDecisionVariableVO==null){
-            return new ResponseEntity(fail("没有查到对应数据！"),HttpStatus.EXPECTATION_FAILED);
+        if (tCaDecisionVariableVO == null) {
+            return new ResponseEntity(fail("没有查到对应数据！"), HttpStatus.EXPECTATION_FAILED);
         }
-        return new ResponseEntity(ok("获取成功",tCaDecisionVariableVO), HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", tCaDecisionVariableVO), HttpStatus.OK);
     }
-
 
     /**
      * 新增决策变量
@@ -118,12 +108,11 @@ public class DecisionVariableController extends AppBaseController {
         Integer errorCount = errorVariableCodeList != null && errorVariableCodeList.size() > 0 ? errorVariableCodeList.size() : 0;
 
         JSONObject result = new JSONObject();
-        result.put("successCount",tCaDecisionVariableList.size() - errorCount);
-        result.put("failCount",errorCount);
+        result.put("successCount", tCaDecisionVariableList.size() - errorCount);
+        result.put("failCount", errorCount);
 
-        return new ResponseEntity(ok("新增完成",result), HttpStatus.OK);
+        return new ResponseEntity(ok("新增完成", result), HttpStatus.OK);
     }
-
 
     /**
      * 修改决策变量
@@ -147,7 +136,6 @@ public class DecisionVariableController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
     /**
      * 删除决策变量
      *
@@ -167,10 +155,6 @@ public class DecisionVariableController extends AppBaseController {
         return new ResponseEntity(ok("删除成功！"), HttpStatus.OK);
     }
 
-
-
-
-
     /**
      * 获取所有的决策变量数据来源
      *
@@ -185,8 +169,8 @@ public class DecisionVariableController extends AppBaseController {
 
     })
     public ResponseEntity queryAllParamSourceEnums() {
-        List<JSONObject> list =  VariableParamSourceEnum.queryAllParamSourceEnums();
-        return new ResponseEntity(ok("调用成功！",list), HttpStatus.OK);
+        List<JSONObject> list = VariableParamSourceEnum.queryAllParamSourceEnums();
+        return new ResponseEntity(ok("调用成功！", list), HttpStatus.OK);
     }
 
 }

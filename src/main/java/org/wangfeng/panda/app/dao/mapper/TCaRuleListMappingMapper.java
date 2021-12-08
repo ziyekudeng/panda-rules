@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface TCaRuleListMappingMapper extends MyMapper<TCaRuleListMapping> {
 
-
     /**
      * 通过规则集的code去查询所有的规则列表
+     *
      * @param ruleListCode
      * @return
      */
@@ -26,8 +26,6 @@ public interface TCaRuleListMappingMapper extends MyMapper<TCaRuleListMapping> {
             + "</script>")
     public List<TCaSingleRuleVO> getByRuleListCode(String ruleListCode);
 
-
-
     @Update("<script>"
             + "update t_ca_rule_list_mapping "
             + "<set> "
@@ -38,7 +36,6 @@ public interface TCaRuleListMappingMapper extends MyMapper<TCaRuleListMapping> {
             + "where rule_list_id = #{ruleListId} "
             + "</script>")
     public int deleteByRuleListId(TCaRuleListMapping tCaRuleListMapping);
-
 
     @Update("<script>"
             + "update t_ca_rule_list_mapping "
@@ -51,7 +48,6 @@ public interface TCaRuleListMappingMapper extends MyMapper<TCaRuleListMapping> {
             + "</script>")
     public int deleteByRuleListCode(TCaRuleListMapping tCaRuleListMapping);
 
-
     @Select("select * from t_ca_rule_list_mapping where delete_flag = 0")
     public List<TCaRuleListMapping> queryAll(TCaRuleListMapping tCaRuleListMapping);
 
@@ -59,9 +55,9 @@ public interface TCaRuleListMappingMapper extends MyMapper<TCaRuleListMapping> {
             " select *" +
             " from t_ca_rule_list_mapping  " +
             " where rule_list_code in " +
-            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> "+
+            " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
             "  #{item}" +
-            " </foreach> "+
+            " </foreach> " +
             " and delete_flag = 0 " +
             "</script>")
     public List<TCaRuleListMapping> queryListByCodeList(List<String> RuleListCodeList);

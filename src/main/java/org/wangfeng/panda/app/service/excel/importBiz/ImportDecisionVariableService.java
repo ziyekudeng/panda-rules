@@ -11,10 +11,8 @@ import org.wangfeng.panda.app.util.StringUtils;
 
 import java.util.List;
 
-
 /**
  * 决策变量的导入类
- *
  */
 @Service
 @Slf4j
@@ -25,13 +23,14 @@ public class ImportDecisionVariableService extends ExportBaseService {
 
     /**
      * 导入决策变量（异步）
+     *
      * @param tCaDecisionVariableList
      */
     @Async
     public void importDecisionVariable(List<TCaDecisionVariable> tCaDecisionVariableList, String businessCode) {
 
         //1、转换businessCode
-        if(StringUtils.isNotBlank(businessCode)){
+        if (StringUtils.isNotBlank(businessCode)) {
             tCaDecisionVariableList.parallelStream().forEach(dv -> {
                 dv.setBusinessCode(businessCode);
             });
@@ -39,18 +38,17 @@ public class ImportDecisionVariableService extends ExportBaseService {
 
         //2、批量插入
         StringBuffer info = new StringBuffer();
-        decisionVariableService.batchInsertNotExist(tCaDecisionVariableList,info);
+        decisionVariableService.batchInsertNotExist(tCaDecisionVariableList, info);
 
         //3、报错信息，打印到日志
-        if(info!=null && info.length()>0){
-            info.insert(0,"有问题的决策变量的Code为：");
-            info.delete(info.length()-1,info.length());
+        if (info != null && info.length() > 0) {
+            info.insert(0, "有问题的决策变量的Code为：");
+            info.delete(info.length() - 1, info.length());
             log.info(info.toString());
-        }else{
+        } else {
             log.info("导入决策变量无异常！");
         }
 
     }
-
 
 }

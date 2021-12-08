@@ -50,22 +50,12 @@ public interface TCaBusinessLineMapper extends MyMapper<TCaBusinessLine> {
             + "</script>")
     public List<TCaBusinessLine> getList(TCaBusinessLineVO tCaBusinessLineVO);
 
-
-
-
-
-
     @Select("<script>"
             + "SELECT * "
             + "FROM t_ca_business_line "
             + "WHERE id = #{id} and delete_flag=0 "
             + "</script>")
     public TCaBusinessLine getById(Long id);
-
-
-
-
-
 
     @Update("<script>"
             + "update t_ca_business_line "
@@ -98,8 +88,6 @@ public interface TCaBusinessLineMapper extends MyMapper<TCaBusinessLine> {
             + "</script>")
     @Override
     public int updateByPrimaryKey(TCaBusinessLine tCaBusinessLine);
-
-
 
     @Select("select * from t_ca_business_line where delete_flag = 0")
     public List<TCaBusinessLine> queryAll(TCaBusinessLine tCaBusinessLine);

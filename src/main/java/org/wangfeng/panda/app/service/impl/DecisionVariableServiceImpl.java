@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class DecisionVariableServiceImpl extends AppBaseService implements DecisionVariableService {
 
-
     @Autowired
     private TCaDecisionVariableMapper tCaDecisionVariableMapper;
 
@@ -47,9 +46,9 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
         List<TCaDecisionVariableVO> tCaDecisionVariableVOList = tCaDecisionVariableMapper.getList(tCaDecisionVariableVO);
         //4、拼装成需要的格式
         List<TCaDecisionVariableVO> finalTCaDecisionVariableVOList = new Page<>();
-        if(tCaDecisionVariableVOList!=null) {
+        if (tCaDecisionVariableVOList != null) {
             BeanUtils.copyProperties(tCaDecisionVariableVOList, finalTCaDecisionVariableVOList);
-            tCaDecisionVariableVOList.stream().forEach(variable ->{
+            tCaDecisionVariableVOList.stream().forEach(variable -> {
                 finalTCaDecisionVariableVOList.add(variable.invokeToVo());
             });
         }
@@ -69,7 +68,7 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
 
         TCaDecisionVariableVO tCaDecisionVariableVO = null;
 //                = (TCaDecisionVariableVO)cacheClient.getObject(RedisKey.DECISION_VARIABLE+id);
-        if(tCaDecisionVariableVO!=null){
+        if (tCaDecisionVariableVO != null) {
             return tCaDecisionVariableVO;
         }
 
@@ -98,7 +97,7 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
                 query.setParamSource(tCaDecisionVariable.getParamSource());
                 query.setDecisionVariableName(tCaDecisionVariable.getDecisionVariableName());
                 List<TCaDecisionVariableVO> queryList = tCaDecisionVariableMapper.getList(query);
-                if(queryList.size()>0){
+                if (queryList.size() > 0) {
                     throw new RuleRuntimeException("相同业务线下，相同数据来源的字段，决策变量名称有重复！");
                 }
                 //2、进行更新操作
@@ -134,9 +133,9 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
         query.setParamSource(tCaDecisionVariable.getParamSource());
         query.setDecisionVariableName(tCaDecisionVariable.getDecisionVariableName());
         List<TCaDecisionVariableVO> queryList = tCaDecisionVariableMapper.getList(query);
-        if(queryList.size()>0){
+        if (queryList.size() > 0) {
             queryList.stream().forEach(q -> {
-                if(!q.getId().equals(tCaDecisionVariable.getId())){
+                if (!q.getId().equals(tCaDecisionVariable.getId())) {
                     throw new RuleRuntimeException("相同业务线下，相同数据来源的字段，决策变量名称有重复！");
                 }
             });
@@ -168,30 +167,30 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
         return tCaDecisionVariableMapper.updateByPrimaryKey(tCaDecisionVariable);
     }
 
-
     /**
      * 通过codeList获取所有的决策变量
+     *
      * @param codeList
      * @return
      */
     @Override
     public List<TCaDecisionVariableVO> queryListByCodeList(List<String> codeList) {
-        if(codeList==null||codeList.size()==0){
+        if (codeList == null || codeList.size() == 0) {
             return null;
         }
         return tCaDecisionVariableMapper.queryListByCodeList(codeList);
     }
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaDecisionVariableList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaDecisionVariable> tCaDecisionVariableList, StringBuffer info) {
         //1、判空
-        if(tCaDecisionVariableList==null){
+        if (tCaDecisionVariableList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -202,16 +201,14 @@ public class DecisionVariableServiceImpl extends AppBaseService implements Decis
             try {
                 initSaveWord(dv);
                 int count = tCaDecisionVariableMapper.insertNotExist(dv);
-                if(count<1){
-                    log.error("code为["+dv.getVariableCode()+"]的决策变量重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + dv.getVariableCode() + "]的决策变量重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(dv.getVariableCode()).append(",");
             }
         });
-
-
 
     }
 }

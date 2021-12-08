@@ -31,8 +31,6 @@ import java.util.*;
 @Slf4j
 public class RuleListServiceImpl extends AppBaseService implements RuleListService {
 
-
-
     @Autowired
     private TCaRuleListMapper tCaRuleListMapper;
     @Autowired
@@ -48,9 +46,9 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
     @Autowired
     private CacheClient cacheClient;
 
-
     /**
      * 获取列表页
+     *
      * @param tCaRuleListVO
      * @param pageNo
      * @param pageSize
@@ -63,10 +61,10 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         //2、去除%等特殊字符的影响
         distinguishString(tCaRuleListVO);
         //3、查询出所有符合要求的数据
-        List<TCaRuleListVO> tCaRuleListVOList =  tCaRuleListMapper.getList(tCaRuleListVO);
+        List<TCaRuleListVO> tCaRuleListVOList = tCaRuleListMapper.getList(tCaRuleListVO);
         //4、拼装成需要的格式
         List<TCaRuleListVO> finalTCaRuleListVOList = new Page<>();
-        if(tCaRuleListVOList!=null) {
+        if (tCaRuleListVOList != null) {
             BeanUtils.copyProperties(tCaRuleListVOList, finalTCaRuleListVOList);
             tCaRuleListVOList.stream().forEach(l -> {
                 finalTCaRuleListVOList.add(l.invokeToVo());
@@ -77,9 +75,9 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         return paginate;
     }
 
-
     /**
      * 通过ID得到对应ID的决策集
+     *
      * @param id
      * @return
      */
@@ -89,17 +87,17 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         //0、查询redis中的值
         TCaRuleListVO tCaRuleListVO = null;
 //                (TCaRuleListVO)cacheClient.getObject(RedisKey.RULE_LIST+id);
-        if(tCaRuleListVO!=null){
+        if (tCaRuleListVO != null) {
             return tCaRuleListVO;
         }
 
         //1、查询出对应的规则集对象
         tCaRuleListVO = tCaRuleListMapper.getById(id);
-        if(tCaRuleListVO!=null){
+        if (tCaRuleListVO != null) {
             //2、再把规则集对应的所有的规则补齐
             List<TCaSingleRuleVO> tCaSingleRuleVOList = tCaRuleListMappingMapper.getByRuleListCode(tCaRuleListVO.getRuleListCode());
             List<TCaSingleRuleVO> finalTCaSingleRuleVOList = new ArrayList<>();
-            if(tCaSingleRuleVOList!=null) {
+            if (tCaSingleRuleVOList != null) {
                 BeanUtils.copyProperties(tCaSingleRuleVOList, finalTCaSingleRuleVOList);
                 tCaSingleRuleVOList.stream().forEach(rule -> {
                     finalTCaSingleRuleVOList.add(rule.invokeToVo());
@@ -112,15 +110,13 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
             return tCaRuleListVO;
         }
-       return null;
+        return null;
 
     }
 
-
-
-
     /**
      * 通过ID得到对应ID的决策集
+     *
      * @param ruleListCode
      * @return
      */
@@ -130,18 +126,18 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         //0、查询redis中的值
         TCaRuleListVO tCaRuleListVO = null;
 //        (TCaRuleListVO)cacheClient.getObject(RedisKey.RULE_LIST+ruleListCode);
-        if(tCaRuleListVO!=null){
+        if (tCaRuleListVO != null) {
             return tCaRuleListVO;
         }
 
         //1、查询出对应的规则集对象
         tCaRuleListVO = tCaRuleListMapper.getByCode(ruleListCode);
 
-        if(tCaRuleListVO!=null){
+        if (tCaRuleListVO != null) {
             //2、再把规则集对应的所有的规则补齐
             List<TCaSingleRuleVO> tCaSingleRuleVOList = tCaRuleListMappingMapper.getByRuleListCode(tCaRuleListVO.getRuleListCode());
             List<TCaSingleRuleVO> finalTCaSingleRuleVOList = new ArrayList<>();
-            if(tCaSingleRuleVOList!=null) {
+            if (tCaSingleRuleVOList != null) {
                 BeanUtils.copyProperties(tCaSingleRuleVOList, finalTCaSingleRuleVOList);
                 tCaSingleRuleVOList.stream().forEach(rule -> {
                     finalTCaSingleRuleVOList.add(rule.invokeToVo());
@@ -160,13 +156,14 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
     /**
      * 插入一条规则集数据
+     *
      * @param tCaRuleListVO
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insert(TCaRuleListVO tCaRuleListVO) {
         //0、判空
-        if(StringUtils.isBlank(tCaRuleListVO.getBusinessCode())){
+        if (StringUtils.isBlank(tCaRuleListVO.getBusinessCode())) {
             throw new RuntimeException("业务线编号不能为空！");
         }
 
@@ -178,12 +175,12 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         tCaRuleListMapper.insert(tCaRuleListVO);
 
         //3、插入对应的映射关系
-        ruleListMappingService.insertByTCaSingleRuleVOList(tCaRuleListVO.getTCaSingleRuleVOList(),tCaRuleListVO.getRuleListCode());
+        ruleListMappingService.insertByTCaSingleRuleVOList(tCaRuleListVO.getTCaSingleRuleVOList(), tCaRuleListVO.getRuleListCode());
     }
-
 
     /**
      * 更新规则集的数据
+     *
      * @param tCaRuleListVO
      */
     @Override
@@ -198,7 +195,7 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
         //2、更新规则集表
         Integer count = tCaRuleListMapper.updateByPrimaryKey(tCaRuleListVO);
-        if(count==0){
+        if (count == 0) {
             throw new RuleRuntimeException("更新失败，没有对应的数据！");
         }
 
@@ -206,12 +203,12 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         ruleListMappingService.deleteByRuleListCode(tCaRuleListVO.getRuleListCode());
 
         //4、增加新增的映射关系
-        ruleListMappingService.insertByTCaSingleRuleVOList(tCaRuleListVO.getTCaSingleRuleVOList(),tCaRuleListVO.getRuleListCode());
+        ruleListMappingService.insertByTCaSingleRuleVOList(tCaRuleListVO.getTCaSingleRuleVOList(), tCaRuleListVO.getRuleListCode());
     }
-
 
     /**
      * 删除规则集的数据
+     *
      * @param id
      */
     @Override
@@ -220,7 +217,6 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
         //0、查询出对应的对象
         TCaRuleListVO deleteRuleList = tCaRuleListMapper.getById(id);
-
 
         //删除redis中的值
 //        cacheClient.del(RedisKey.RULE_LIST+id);
@@ -236,14 +232,12 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         ruleListMappingService.deleteByRuleListCode(deleteRuleList.getRuleListCode());
     }
 
-
-
     /**
      * 填充计算表达式，规则代码，输出项代码
      *
      * @param tCaRuleList
      */
-    public void complementProperty( TCaRuleList tCaRuleList){
+    public void complementProperty(TCaRuleList tCaRuleList) {
         //生成规则集编号
         String businessCode = tCaRuleList.getBusinessCode();
         //获取日期戳
@@ -252,7 +246,7 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         sequenceService.incr(YYYYMMDD, SequenceTypeEnum.RULE_LIST_SEQ.getTypeName());
         Integer num = sequenceService.queryLatestNum(YYYYMMDD, SequenceTypeEnum.RULE_LIST_SEQ.getTypeName());
         //拼接出ruleListCode
-        String ruleListCode =SequenceTypeEnum.RULE_LIST_SEQ+"_"+businessCode+"_"+YYYYMMDD+"_"+String.format("%03d", num);
+        String ruleListCode = SequenceTypeEnum.RULE_LIST_SEQ + "_" + businessCode + "_" + YYYYMMDD + "_" + String.format("%03d", num);
 
         tCaRuleList.setRuleListCode(ruleListCode);
     }
@@ -265,9 +259,6 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
     /* ----------------------以下是计算的逻辑代码-------------------------------------*/
 
-
-
-
     /**
      * 通过规则集ID去计算对应的结果
      *
@@ -276,31 +267,31 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
      * @param jsonObject
      */
     @Override
-    public JSONObject calculateRuleListByIdORCode(Long id, String ruleListCode ,JSONObject jsonObject) {
+    public JSONObject calculateRuleListByIdORCode(Long id, String ruleListCode, JSONObject jsonObject) {
         //1、拿到所有的规则的ID
-        Map<Integer,List<Long>> groupSortMap = new HashMap<>();
+        Map<Integer, List<Long>> groupSortMap = new HashMap<>();
         TCaRuleListVO tCaRuleListVO = null;
-        if(id!=null){
+        if (id != null) {
             tCaRuleListVO = getById(id);
-        }else{
+        } else {
             tCaRuleListVO = getByCode(ruleListCode);
         }
 
-        if(tCaRuleListVO==null){
+        if (tCaRuleListVO == null) {
             return null;
         }
-        List<TCaSingleRuleVO> tCaSingleRuleVOList =tCaRuleListVO.getTCaSingleRuleVOList();
-        if(tCaSingleRuleVOList==null){
+        List<TCaSingleRuleVO> tCaSingleRuleVOList = tCaRuleListVO.getTCaSingleRuleVOList();
+        if (tCaSingleRuleVOList == null) {
             return null;
         }
 
         tCaSingleRuleVOList.stream().forEach(t -> {
             List<Long> list = new ArrayList<>();
-            if(groupSortMap.containsKey(t.getSort())){
+            if (groupSortMap.containsKey(t.getSort())) {
                 list = groupSortMap.get(t.getSort());
             }
             list.add(t.getId());
-            groupSortMap.put(t.getSort(),list);
+            groupSortMap.put(t.getSort(), list);
         });
 
         //2、遍历这个Map，执行对应的结果
@@ -308,25 +299,25 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
         List<Integer> keyList = new ArrayList<>(keys);
         Collections.sort(keyList);
         JSONObject finalResult = new JSONObject();
-        for(Integer i : keyList){
+        for (Integer i : keyList) {
             List<Long> ruleIds = groupSortMap.get(i);
-            JSONObject result = singleRuleService.calculateByIdList(ruleIds,jsonObject);
+            JSONObject result = singleRuleService.calculateByIdList(ruleIds, jsonObject);
             finalResult.putAll(result);
         }
 
         return finalResult;
     }
 
-
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleListList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaRuleList> tCaRuleListList, StringBuffer info) {
         //1、判空
-        if(tCaRuleListList==null){
+        if (tCaRuleListList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -339,11 +330,11 @@ public class RuleListServiceImpl extends AppBaseService implements RuleListServi
 
                 int count = tCaRuleListMapper.insertNotExist(rl);
 
-                if(count<1){
-                    log.error("code为["+rl.getRuleListCode()+"]的规则集合重复了，请确认！");
+                if (count < 1) {
+                    log.error("code为[" + rl.getRuleListCode() + "]的规则集合重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(rl.getRuleListCode()).append(",");
             }
         });

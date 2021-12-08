@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.*;
 
-
 public abstract class AppBaseService {
 
     private static final Log logger = LogFactory.getLog(AppBaseService.class);
@@ -84,7 +83,6 @@ public abstract class AppBaseService {
         PageHelper.startPage(pageNo, pageSize, orderBy);
     }
 
-
     /**
      * 初始化新增时的必要字段
      *
@@ -101,7 +99,6 @@ public abstract class AppBaseService {
         fillObject(obj);
     }
 
-
     /**
      * 初始化更新时的必要字段
      *
@@ -114,9 +111,9 @@ public abstract class AppBaseService {
         }
     }
 
-
     /**
      * 补充为空的字段
+     *
      * @param object
      */
     protected void fillObject(Object object) {
@@ -124,9 +121,9 @@ public abstract class AppBaseService {
             if (object != null) {
                 Class<?> clz = object.getClass();
                 // 获取实体类的所有属性，返回Field数组
-                List<Field> fieldList = new ArrayList<>() ;
+                List<Field> fieldList = new ArrayList<>();
                 while (clz != null) {//当父类为null的时候说明到达了最上层的父类(Object类).
-                    fieldList.addAll(Arrays.asList(clz .getDeclaredFields()));
+                    fieldList.addAll(Arrays.asList(clz.getDeclaredFields()));
                     clz = clz.getSuperclass(); //得到父类,然后赋给自己
                 }
                 clz = object.getClass();
@@ -215,7 +212,7 @@ public abstract class AppBaseService {
                             mSet = (Method) clz.getMethod("set" + fieldName, BigDecimal.class);
                             mSet.invoke(object, new BigDecimal("0.00"));
                         }
-                    }else if (Boolean.class.getName().equals(type.getName())){
+                    } else if (Boolean.class.getName().equals(type.getName())) {
                         mGet = (Method) clz.getMethod("get" + fieldName);
                         if (mGet.invoke(object) == null) {
                             mSet = (Method) clz.getMethod("set" + fieldName, Boolean.class);
@@ -230,9 +227,9 @@ public abstract class AppBaseService {
         }
     }
 
-
     /**
      * 识别%
+     *
      * @param object
      */
     protected void distinguishString(Object object) {
@@ -254,12 +251,12 @@ public abstract class AppBaseService {
 
                         String result = null;
                         mSet = (Method) clz.getMethod("set" + fieldName, String.class);
-                        if(mGet.invoke(object)==null){
+                        if (mGet.invoke(object) == null) {
                             mSet.invoke(object, null);
-                        }else{
+                        } else {
                             result = mGet.invoke(object).toString();
-                            mSet.invoke(object, result.replace("%","\\%"));
-                            mSet.invoke(object, result.replace("_","\\_"));
+                            mSet.invoke(object, result.replace("%", "\\%"));
+                            mSet.invoke(object, result.replace("_", "\\_"));
 
                         }
                     }
@@ -269,6 +266,5 @@ public abstract class AppBaseService {
             return;
         }
     }
-
 
 }

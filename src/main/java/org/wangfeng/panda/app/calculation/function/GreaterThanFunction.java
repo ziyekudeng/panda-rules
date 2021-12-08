@@ -6,25 +6,24 @@ import org.wangfeng.panda.app.util.NumberUtils;
 
 /**
  * 大于函数
- *
+ * <p>
  * 说明：
- *  1、x是否大于y
- *
+ * 1、x是否大于y
+ * <p>
  * 要求：
- *  1、x，y为整数或者浮点数中的任意一种类型，否则页面提示“输入信息类型不匹配”
- *
+ * 1、x，y为整数或者浮点数中的任意一种类型，否则页面提示“输入信息类型不匹配”
+ * <p>
  * 格式：
- *  1、x > y
- *
+ * 1、x > y
+ * <p>
  * 返回值类型支持：
- *  1、integer
- *  2、double
+ * 1、integer
+ * 2、double
  */
 @Component
 public class GreaterThanFunction extends BaseFunction {
 
     private static final String GREATER_THAN_ERROR_MESSAGE = "大于函数异常！";
-
 
     @Override
     public Object invoke(Object... objs) {
@@ -32,13 +31,12 @@ public class GreaterThanFunction extends BaseFunction {
         //1、校验传入的参数个数是否有问题
         checkArgsCount(2, GREATER_THAN_ERROR_MESSAGE, objs);
 
-        if("".equals(objs[0])){
+        if ("".equals(objs[0])) {
             objs[0] = 0;
         }
-        if("".equals(objs[1])){
+        if ("".equals(objs[1])) {
             objs[1] = 0;
         }
-
 
         //2、校验传入参数的格式是否正确
 //        if(!NumberUtils.isCalculationNumber(objs[0])||!NumberUtils.isCalculationNumber(objs[1])){
@@ -48,14 +46,14 @@ public class GreaterThanFunction extends BaseFunction {
         //3、计算并返回结果
         try {
             return NumberUtils.toNumber(objs[0]).compareTo(NumberUtils.toNumber(objs[1])) == 1;
-        }catch (Exception e){
-            throw new RuleRuntimeException(GREATER_THAN_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        } catch (Exception e) {
+            throw new RuleRuntimeException(GREATER_THAN_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
     }
 
-
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -64,11 +62,7 @@ public class GreaterThanFunction extends BaseFunction {
         Object o2 = 3.2;
 
         GreaterThanFunction greaterThanFunction = new GreaterThanFunction();
-        System.out.println(greaterThanFunction.invoke(o1,o2));
+        System.out.println(greaterThanFunction.invoke(o1, o2));
     }
-
-
-
-
 
 }

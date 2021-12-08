@@ -23,9 +23,9 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
     @Autowired
     private TCaRuleTreeMappingMapper tCaRuleTreeMappingMapper;
 
-
     /**
      * 通过treeId去查找所有的关联关系
+     *
      * @param treeCode
      * @return
      */
@@ -37,9 +37,9 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
         return tCaRuleTreeMappingList;
     }
 
-
     /**
      * 通过TCaRuleTreeVO去插入对应的connectors数据
+     *
      * @param connectors
      * @param ruleTreeCode
      */
@@ -51,21 +51,21 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
         //循环增加对应的treeId
         connectors.stream().forEach(tCaRuleTreeMappingVO -> {
             tCaRuleTreeMappingVO.setRuleTreeCode(ruleTreeCode);
-            if(StringUtils.isBlank(tCaRuleTreeMappingVO.getTargetNodeId())){
+            if (StringUtils.isBlank(tCaRuleTreeMappingVO.getTargetNodeId())) {
                 tCaRuleTreeMappingVO.setTargetNodeId(tCaRuleTreeMappingVO.getTargetNode().getNodeId());
             }
-            if(StringUtils.isBlank(tCaRuleTreeMappingVO.getSourceNodeId())){
+            if (StringUtils.isBlank(tCaRuleTreeMappingVO.getSourceNodeId())) {
                 tCaRuleTreeMappingVO.setSourceNodeId(tCaRuleTreeMappingVO.getSourceNode().getNodeId());
             }
 
             initSaveWord(tCaRuleTreeMappingVO);
             TCaRuleTreeMapping mapping = new TCaRuleTreeMapping();
-            BeanUtils.copyProperties(tCaRuleTreeMappingVO,mapping);
+            BeanUtils.copyProperties(tCaRuleTreeMappingVO, mapping);
             insertConnectors.add(mapping);
         });
 
         //批量插入
-        if(insertConnectors!=null&&insertConnectors.size()>0){
+        if (insertConnectors != null && insertConnectors.size() > 0) {
             tCaRuleTreeMappingMapper.insertList(insertConnectors);
         }
 
@@ -73,6 +73,7 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
 
     /**
      * 通过treeId删除所有对应的mapping关系
+     *
      * @param ruleTreeCode
      */
     @Override
@@ -86,13 +87,14 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
 
     /**
      * 批量插入，并返回插入结果信息
+     *
      * @param tCaRuleTreeMappingList
      * @param info
      */
     @Override
     public void batchInsertNotExist(List<TCaRuleTreeMapping> tCaRuleTreeMappingList, StringBuffer info) {
         //1、判空
-        if(tCaRuleTreeMappingList==null){
+        if (tCaRuleTreeMappingList == null) {
             info.append("待插入的list为空，请查实！");
             return;
         }
@@ -105,15 +107,14 @@ public class RuleTreeMappingServiceImpl extends AppBaseService implements RuleTr
 
                 int count = tCaRuleTreeMappingMapper.insertNotExist(tm);
 
-                if(count<1){
-                    log.error("sourceNodeId为["+tm.getSourceNodeId()+"]，targetNodeId为["+tm.getTargetNodeId()+"]的决策树映射重复了，请确认！");
+                if (count < 1) {
+                    log.error("sourceNodeId为[" + tm.getSourceNodeId() + "]，targetNodeId为[" + tm.getTargetNodeId() + "]的决策树映射重复了，请确认！");
                     throw new RuleRuntimeException("已存在，插入失败");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 info.append(tm.getRuleTreeCode()).append(",");
             }
         });
     }
-
 
 }

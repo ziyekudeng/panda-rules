@@ -15,7 +15,7 @@ public class TraceInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String requestId = String.valueOf(UUID.randomUUID());
-        MDC.put(Constants.REQUEST_ID,requestId);
+        MDC.put(Constants.REQUEST_ID, requestId);
         return true;
     }
 

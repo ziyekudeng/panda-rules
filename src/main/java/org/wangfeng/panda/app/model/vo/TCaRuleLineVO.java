@@ -14,7 +14,6 @@ public class TCaRuleLineVO extends TCaRuleLine {
      */
     private List<TCaCellVariable> tCaCellVariableList;
 
-
     /**
      * 当前行计算的结果
      */

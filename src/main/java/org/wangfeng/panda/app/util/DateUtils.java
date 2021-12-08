@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-
 /**
  * Created by wangfeng.
  */
@@ -17,7 +16,6 @@ public class DateUtils {
     public static final String YYYY_MM_FORMAT = "yyyy-MM";
     public static final String MMM_YY_FORMAT = "MMM-yy";
     public static final String YYYYMMDD = "YYYYMMdd";
-
 
     private static final String DAY = "天";
     private static final String HOUR = "小时";
@@ -32,7 +30,7 @@ public class DateUtils {
      * @return
      */
     public static Date getDate(String dateString, String pattern) {
-        if (StringUtils.isEmpty(dateString) || StringUtils.isEmpty(pattern) || dateString.length()!=pattern.length()) {
+        if (StringUtils.isEmpty(dateString) || StringUtils.isEmpty(pattern) || dateString.length() != pattern.length()) {
             return null;
         }
         Date date;
@@ -68,13 +66,14 @@ public class DateUtils {
 
     /**
      * 把默认类型的string专程指定pattern的string
+     *
      * @param defaultDateString
      * @param pattern
      * @return
      */
-    public static String getStringFromDefault(String defaultDateString, String pattern){
-        Date date = getDate(defaultDateString,DEFAULT_FORMAT);
-        String str = getString(date,pattern);
+    public static String getStringFromDefault(String defaultDateString, String pattern) {
+        Date date = getDate(defaultDateString, DEFAULT_FORMAT);
+        String str = getString(date, pattern);
         return str;
     }
 
@@ -165,7 +164,7 @@ public class DateUtils {
      * @return
      */
     public static Integer getYear(Date date) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -180,7 +179,7 @@ public class DateUtils {
      * @return
      */
     public static Integer getMonth(Date date) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -195,7 +194,7 @@ public class DateUtils {
      * @return
      */
     public static Integer getDay(Date date) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -211,7 +210,7 @@ public class DateUtils {
      * @return
      */
     public static Date getRelativeDateByYear(Date date, int offset) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -228,7 +227,7 @@ public class DateUtils {
      * @return
      */
     public static Date getRelativeDateByMonth(Date date, int offset) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -245,7 +244,7 @@ public class DateUtils {
      * @return
      */
     public static Date getRelativeDateByDay(Date date, int offset) {
-        if (date==null) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -254,17 +253,17 @@ public class DateUtils {
         return cal.getTime();
     }
 
-
     /**
      * 通过时分秒为纬度,获取相对日期
+     *
      * @param date
      * @param hour
      * @param minute
      * @param second
      * @return
      */
-    public static Date getRelativeDateByHMS(Date date, int hour ,int minute , int second) {
-        if (date==null) {
+    public static Date getRelativeDateByHMS(Date date, int hour, int minute, int second) {
+        if (date == null) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -318,9 +317,8 @@ public class DateUtils {
         return sb.toString();
     }
 
-
-    public static Date getYesterdayLastTime(Date date){
-        if(date==null){
+    public static Date getYesterdayLastTime(Date date) {
+        if (date == null) {
             return null;
         }
         Calendar cal = GregorianCalendar.getInstance();
@@ -333,8 +331,8 @@ public class DateUtils {
         return cal.getTime();
     }
 
-    public static Date getYesterdayFirstTime(Date date){
-        if(date==null){
+    public static Date getYesterdayFirstTime(Date date) {
+        if (date == null) {
             return null;
         }
         Calendar cal = GregorianCalendar.getInstance();
@@ -347,9 +345,9 @@ public class DateUtils {
         return cal.getTime();
     }
 
-
     /**
      * 得到指定时间的当天零点
+     *
      * @param date
      * @return
      */
@@ -365,6 +363,7 @@ public class DateUtils {
 
     /**
      * 得到指定时间的当月第一天零点
+     *
      * @param date
      * @return
      */
@@ -380,11 +379,10 @@ public class DateUtils {
         return cal.getTime();
     }
 
-
     public static Date getNextYearFirstDay() {
         Calendar cal = GregorianCalendar.getInstance();
         //设置年份
-        cal.add(Calendar.YEAR,1);
+        cal.add(Calendar.YEAR, 1);
         //设置月份
         cal.set(Calendar.MONTH, 0);
         //设置天
@@ -407,23 +405,24 @@ public class DateUtils {
 
     }
 
-
     /**
      * 查看两个日期之间相差的天数
+     *
      * @return
      */
-    public static Integer daysBetween(Date fromDate , Date toDate){
+    public static Integer daysBetween(Date fromDate, Date toDate) {
         Date begin = getDateNoTime(fromDate);
         Date end = getDateNoTime(toDate);
-        int days = (int) ((end.getTime() - begin.getTime()) / (1000*3600*24));
+        int days = (int) ((end.getTime() - begin.getTime()) / (1000 * 3600 * 24));
         return days;
     }
 
     /**
      * 查看两个日期之间相差的月数
+     *
      * @return
      */
-    public static Integer monthsBetween(Date fromDate , Date toDate){
+    public static Integer monthsBetween(Date fromDate, Date toDate) {
         Calendar bef = Calendar.getInstance();
         Calendar aft = Calendar.getInstance();
         bef.setTime(fromDate);
@@ -433,6 +432,5 @@ public class DateUtils {
 
         return month + result;
     }
-
 
 }

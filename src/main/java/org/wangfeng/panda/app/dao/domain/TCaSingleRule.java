@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 @Table(name = "t_ca_single_rule")
 @Data
-public class TCaSingleRule extends AppBaseModel{
+public class TCaSingleRule extends AppBaseModel {
 
     /**
      * 自增主键ID
@@ -25,7 +25,7 @@ public class TCaSingleRule extends AppBaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SELECT LAST_INSERT_ID()")
     @ApiModelProperty("自增主键ID")
-    @NotNull(message="自增主键ID不能为空" , groups = {UpdateOperation.class})
+    @NotNull(message = "自增主键ID不能为空", groups = {UpdateOperation.class})
     private Long id;
 
     /**
@@ -48,7 +48,7 @@ public class TCaSingleRule extends AppBaseModel{
      */
     @Column(name = "rule_name")
     @ApiModelProperty("规则名称")
-    @NotNull(message="规则名称不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "规则名称不能为空", groups = {AddOperation.class})
     @ExportColumn("规则名称")
     private String ruleName;
 
@@ -72,7 +72,7 @@ public class TCaSingleRule extends AppBaseModel{
      * 状态位（1：启用，0：停用）
      */
     @ApiModelProperty("状态位（1：启用，0：停用）")
-    @NotNull(message="状态位不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "状态位不能为空", groups = {AddOperation.class})
     @ExportColumn("状态位（1：启用，0：停用）")
     private Short status;
 
@@ -89,7 +89,7 @@ public class TCaSingleRule extends AppBaseModel{
      */
     @Column(name = "out_put_name")
     @ApiModelProperty("输出项名称")
-    @NotNull(message="输出项不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "输出项不能为空", groups = {AddOperation.class})
     @ExportColumn("输出项名称")
     private String outPutName;
 
@@ -98,7 +98,7 @@ public class TCaSingleRule extends AppBaseModel{
      */
     @Column(name = "out_put_type")
     @ApiModelProperty("输出类型（1-字符串；2-整数；3-布尔；4-浮点数；5-日期；6-时间；7-数组；8-枚举值）")
-    @NotNull(message="输出类型不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "输出类型不能为空", groups = {AddOperation.class})
     @ExportColumn("输出类型（1-字符串；2-整数；3-布尔；4-浮点数；5-日期；6-时间；7-数组；8-枚举值）")
     private Short outPutType;
 
@@ -144,36 +144,35 @@ public class TCaSingleRule extends AppBaseModel{
      * 业务线的code
      */
     @Column(name = "business_code")
-    @NotNull(message="业务线的编号不能为空" , groups = {AddOperation.class})
+    @NotNull(message = "业务线的编号不能为空", groups = {AddOperation.class})
     @ExportColumn("业务线的code")
     private String businessCode;
 
     /**
      * 实体类向vo的转换方法
+     *
      * @return
      */
-    public TCaSingleRuleVO invokeToVo(){
+    public TCaSingleRuleVO invokeToVo() {
 
         TCaSingleRuleVO vo = new TCaSingleRuleVO();
-        BeanUtils.copyProperties(this,vo);
+        BeanUtils.copyProperties(this, vo);
 
         //状态名称赋值
         StatusEnum statusEnum = StatusEnum.getByCode(vo.getStatus());
-        if(statusEnum!=null){
+        if (statusEnum != null) {
             vo.setStatusName(statusEnum.getName());
         }
 
-
         //输出类型名称赋值
         OutPutTypeEnum outPutTypeEnum = OutPutTypeEnum.getByCode(vo.getOutPutType());
-        if(outPutTypeEnum!=null){
+        if (outPutTypeEnum != null) {
             vo.setOutPutTypeName(outPutTypeEnum.getName());
         }
 
-
         //规则类别名称赋值
         RuleCategoryEnum ruleCategoryEnum = RuleCategoryEnum.getByCode(vo.getRuleCategory());
-        if(ruleCategoryEnum!=null){
+        if (ruleCategoryEnum != null) {
             vo.setRuleCategoryName(ruleCategoryEnum.getName());
         }
 

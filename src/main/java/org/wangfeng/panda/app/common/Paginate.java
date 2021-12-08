@@ -5,9 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serializable;
 import java.util.List;
 
-
 public class Paginate implements Serializable {
-
 
     public final static int PAGE_NUMBER = 20;
     private List pageList;
@@ -100,7 +98,6 @@ public class Paginate implements Serializable {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
-
 
     public int getNextPage() {
         if (isLastPage()) {

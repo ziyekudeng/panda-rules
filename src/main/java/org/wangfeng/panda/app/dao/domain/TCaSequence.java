@@ -6,7 +6,6 @@ import org.wangfeng.panda.app.service.excel.ExportColumn;
 
 import javax.persistence.*;
 
-
 @Table(name = "t_ca_sequence")
 @Data
 public class TCaSequence extends AppBaseModel {
@@ -42,7 +41,6 @@ public class TCaSequence extends AppBaseModel {
      */
     @ExportColumn("状态位（1：启用，0：停用）")
     private Short status;
-
 
     @Override
     public String toString() {

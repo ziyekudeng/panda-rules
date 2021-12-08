@@ -1,6 +1,5 @@
 package org.wangfeng.panda.app.controller;
 
-
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.wangfeng.panda.app.model.vo.TCaBusinessLineVO;
 import org.wangfeng.panda.app.service.BusinessLineService;
 import org.wangfeng.panda.app.validation.group.AddOperation;
 import org.wangfeng.panda.app.validation.group.UpdateOperation;
-
 
 /**
  * <p>
@@ -58,11 +56,9 @@ public class BusinessLineController extends AppBaseController {
 
     })
     public ResponseEntity getList(@ApiParam(value = "查询条件，是对象", required = true) @RequestBody @Validated TCaBusinessLineVO tCaBusinessLineVO) {
-        Paginate paginate = businessLineService.queryPagenate(tCaBusinessLineVO,getPageIndex(),getPageSize());
-        return new ResponseEntity(ok("获取成功",paginate),HttpStatus.OK);
+        Paginate paginate = businessLineService.queryPagenate(tCaBusinessLineVO, getPageIndex(), getPageSize());
+        return new ResponseEntity(ok("获取成功", paginate), HttpStatus.OK);
     }
-
-
 
     /**
      * 通过ID单个查询
@@ -80,14 +76,11 @@ public class BusinessLineController extends AppBaseController {
     })
     public ResponseEntity getById(@ApiParam(value = "业务线的主键ID", required = true) @RequestParam Long id) {
         TCaBusinessLine tCaBusinessLine = businessLineService.getById(id);
-        if(tCaBusinessLine==null){
-            return new ResponseEntity(fail("没有查到对应数据！"),HttpStatus.EXPECTATION_FAILED);
+        if (tCaBusinessLine == null) {
+            return new ResponseEntity(fail("没有查到对应数据！"), HttpStatus.EXPECTATION_FAILED);
         }
-        return new ResponseEntity(ok("获取成功",tCaBusinessLine.invokeToVo()), HttpStatus.OK);
+        return new ResponseEntity(ok("获取成功", tCaBusinessLine.invokeToVo()), HttpStatus.OK);
     }
-
-
-
 
     /**
      * 新增业务线
@@ -111,7 +104,6 @@ public class BusinessLineController extends AppBaseController {
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
 
-
     /**
      * 修改业务线
      *
@@ -130,13 +122,12 @@ public class BusinessLineController extends AppBaseController {
                                  @RequestBody @Validated(value = UpdateOperation.class) TCaBusinessLine tCaBusinessLine,
                                  BindingResult bindingResult) {
         checkBindingResult(bindingResult);
-        if(tCaBusinessLine.getBusinessCode()!=null){
+        if (tCaBusinessLine.getBusinessCode() != null) {
             return new ResponseEntity(fail("业务线代码不能被编辑!"), HttpStatus.EXPECTATION_FAILED);
         }
         businessLineService.updateByPrimaryKey(tCaBusinessLine);
         return new ResponseEntity(ok(), HttpStatus.OK);
     }
-
 
     /**
      * 删除业务线

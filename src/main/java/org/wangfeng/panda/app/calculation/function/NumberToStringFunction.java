@@ -1,27 +1,26 @@
 package org.wangfeng.panda.app.calculation.function;
 
-
 import org.springframework.stereotype.Component;
 import org.wangfeng.panda.app.common.exception.RuleRuntimeException;
 import org.wangfeng.panda.app.util.NumberUtils;
 
 /**
  * 数字转字符串函数
- *
+ * <p>
  * 说明：
- *  1、将数字x转换为字符串
- *
+ * 1、将数字x转换为字符串
+ * <p>
  * 要求：
- *  1、x为数字类型，否则页面提示“输入信息类型不匹配”
- *
+ * 1、x为数字类型，否则页面提示“输入信息类型不匹配”
+ * <p>
  * 格式：
- *  1、numberToString(x)
- *
+ * 1、numberToString(x)
+ * <p>
  * 返回值类型支持：
- *  1、string
+ * 1、string
  */
 @Component
-public class NumberToStringFunction extends BaseFunction{
+public class NumberToStringFunction extends BaseFunction {
 
     private static final String NUMBER_TO_STRING_ERROR_MESSAGE = "数字转字符串函数异常！";
 
@@ -32,17 +31,17 @@ public class NumberToStringFunction extends BaseFunction{
         checkArgsCount(1, NUMBER_TO_STRING_ERROR_MESSAGE, objs);
 
         //2、校验传入参数的格式是否正确
-        if(!NumberUtils.isCalculationNumber(objs[0])){
-            throw new RuleRuntimeException(NUMBER_TO_STRING_ERROR_MESSAGE+IMPORT_UNITE_ERROR_MESSAGE);
+        if (!NumberUtils.isCalculationNumber(objs[0])) {
+            throw new RuleRuntimeException(NUMBER_TO_STRING_ERROR_MESSAGE + IMPORT_UNITE_ERROR_MESSAGE);
         }
 
         //3、计算并返回结果
         return new StringBuffer().append(objs[0].toString()).toString();
     }
 
-
     /**
      * 测试代码
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -52,9 +51,6 @@ public class NumberToStringFunction extends BaseFunction{
         Object o3 = 3.1;
         Object o4 = 5.2d;
 
-
-
-
         NumberToStringFunction numberToStringFunction = new NumberToStringFunction();
         System.out.println(numberToStringFunction.invoke(o1));
         System.out.println(numberToStringFunction.invoke(o2));
@@ -62,7 +58,5 @@ public class NumberToStringFunction extends BaseFunction{
         System.out.println(numberToStringFunction.invoke(o4));
 
     }
-
-
 
 }

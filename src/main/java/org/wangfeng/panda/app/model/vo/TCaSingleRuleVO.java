@@ -10,7 +10,6 @@ import java.util.Map;
 @Data
 public class TCaSingleRuleVO extends TCaSingleRule {
 
-
     /**
      * 业务线名称
      */
@@ -23,13 +22,11 @@ public class TCaSingleRuleVO extends TCaSingleRule {
     @ApiModelProperty("规则类别名称(1-系统内置；2-自定义)")
     private String ruleCategoryName;
 
-
     /**
      * 状态位名称（1：启用，0：停用）
      */
     @ApiModelProperty("状态位名称（1：启用，0：停用）")
     private String statusName;
-
 
     /**
      * 输出类型（1-字符串；2-整数；3-布尔；4-浮点数；5-日期；6-时间；7-数组；8-枚举值）
