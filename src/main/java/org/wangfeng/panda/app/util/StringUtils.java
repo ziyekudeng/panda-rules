@@ -54,7 +54,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     public static String underlineToHump(String para){
         StringBuilder result=new StringBuilder();
-        String a[]=para.split("_");
+        String[] a =para.split("_");
         for(String s:a){
             if(result.length()==0){
                 result.append(s.toLowerCase());

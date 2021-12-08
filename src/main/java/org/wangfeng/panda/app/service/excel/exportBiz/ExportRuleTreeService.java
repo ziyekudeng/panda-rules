@@ -89,8 +89,8 @@ public class ExportRuleTreeService extends ExportBaseService{
         wb = ExcelUtil.getXSSFWorkbook(ruleTreeMappingSheetName, ruleTreeMappingHeaders, exportMappingList, wb,TCaRuleTreeMapping.class);
 
         //5、组装返回结果
-        List<String> ruleCodeList = exportNodeList.stream().filter(node -> node.getType().equals("规则")).map(TCaRuleTreeNode::getNodeRuleCode).collect(Collectors.toList());
-        List<String> ruleListCodeList = exportNodeList.stream().filter(node -> node.getType().equals("规则集")).map(TCaRuleTreeNode::getNodeRuleCode).collect(Collectors.toList());
+        List<String> ruleCodeList = exportNodeList.stream().filter(node -> "规则".equals(node.getNodeType())).map(TCaRuleTreeNode::getNodeRuleCode).collect(Collectors.toList());
+        List<String> ruleListCodeList = exportNodeList.stream().filter(node -> "规则集".equals(node.getNodeType())).map(TCaRuleTreeNode::getNodeRuleCode).collect(Collectors.toList());
         Map<String,List> resultMap = new HashMap<String,List>(){{
             put("ruleCodeList",ruleCodeList);
             put("ruleListCodeList",ruleListCodeList);

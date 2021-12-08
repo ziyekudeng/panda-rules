@@ -298,7 +298,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
         String key = tCaRuleTreeVO.getRootRuleNodeId();
 
         Long sourceId = nodeMap.get(key).getNodeRuleId();
-        String nodeType = nodeMap.get(key).getType();
+        String nodeType = nodeMap.get(key).getNodeType();
 
         JSONObject result = new JSONObject();
         while(params.containsKey(key)){
@@ -313,7 +313,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
 
                 key = son.getNodeId();
                 sourceId = son.getNodeRuleId();
-                nodeType = son.getType();
+                nodeType = son.getNodeType();
 
                 //如果是开始节点，或者是条件节点，则直接跳过，不参与计算
                 if((NodeTypeEnum.KAI_SHI.getName().equals(nodeType)||NodeTypeEnum.TIAO_JIAN.getName().equals(nodeType))){
@@ -331,7 +331,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
                 //当没有对应的表达式的时候，计算并到下一层
                 if((expression==null||expression.length()==0)){
                     hasChanged = true;
-                    result =  realCalculate(son.getNodeRuleCode(),son.getType(),jsonObject);
+                    result =  realCalculate(son.getNodeRuleCode(),son.getNodeType(),jsonObject);
                     jsonObject.putAll(result);
                     break;
                 }
@@ -339,7 +339,7 @@ public class RuleTreeServiceImpl extends AppBaseService implements RuleTreeServi
                 //如果有对应的表达式的时候，计算决策树判断逻辑，如果命中则退出循环
                 Boolean obj = (Boolean) JSEngineCalculation.calculate(expression,jsonObject);
                 if(obj){
-                    result =  realCalculate(son.getNodeRuleCode(),son.getType(),jsonObject);
+                    result =  realCalculate(son.getNodeRuleCode(),son.getNodeType(),jsonObject);
                     jsonObject.putAll(result);
                     hasChanged = true;
                     break;

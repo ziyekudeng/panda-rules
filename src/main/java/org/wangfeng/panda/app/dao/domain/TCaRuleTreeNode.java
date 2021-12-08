@@ -21,13 +21,13 @@ public class TCaRuleTreeNode extends AppBaseModel {
      * 该节点的名字
      */
     @ExportColumn("该节点的名字")
-    private String name;
+    private String nodeName;
 
     /**
      * 该节点的类型（规则，规则集，判断条件）
      */
     @ExportColumn("该节点的类型")
-    private String type;
+    private String nodeType;
 
     /**
      * （已经废弃）决策树节点对应的规则或规则集的ID
@@ -59,21 +59,21 @@ public class TCaRuleTreeNode extends AppBaseModel {
      * 该节点的icon名称
      */
     @ExportColumn("该节点的icon名称")
-    private String icon;
+    private String nodeIconName;
 
     /**
      * 该节点是否上方有连线（0：否，1：是）
      */
     @Column(name = "is_left_connect_show")
     @ExportColumn("该节点是否上方有连线（0：否，1：是）")
-    private Boolean isLeftConnectShow;
+    private Boolean nodeIsLeftConnectShow;
 
     /**
      * 该节点是否下方有连线（0：否，1：是）
      */
     @Column(name = "is_right_connect_show")
     @ExportColumn("该节点是否下方有连线（0：否，1：是）")
-    private Boolean isRightConnectShow;
+    private Boolean nodeIsRightConnectShow;
 
     /**
      * 判断条件（同规则的表达式）

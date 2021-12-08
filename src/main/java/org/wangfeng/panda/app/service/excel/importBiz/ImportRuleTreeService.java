@@ -96,10 +96,10 @@ public class ImportRuleTreeService extends ExportBaseService {
 
                 String ruleTreeCode = node.getRuleTreeCode().replaceAll("RULE_TREE_SEQ_"+oldBusinessCode,"RULE_TREE_SEQ_"+businessCode);
                 node.setRuleTreeCode(ruleTreeCode);
-                if(node.getType().equals("规则")){
+                if("规则".equals(node.getNodeType())){
                     String nodeRuleCode = node.getNodeRuleCode().replaceAll("RULE_SEQ_"+oldBusinessCode,"RULE_LIST_SEQ_"+businessCode);
                     node.setNodeRuleCode(nodeRuleCode);
-                }else if(node.getType().equals("规则集")){
+                }else if("规则集".equals(node.getNodeType())){
                     String nodeRuleCode = node.getNodeRuleCode().replaceAll("RULE_LIST_SEQ_"+oldBusinessCode,"RULE_SEQ_"+businessCode);
                     node.setNodeRuleCode(nodeRuleCode);
                 }
